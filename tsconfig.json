@@ -4,16 +4,17 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    }
+      "@/*": ["src/*"],
+      "@styles/*": ["src/styles/*"],
+      "@shared/*": ["src/shared/*"],
+      "@modules/*": ["src/modules/*"],
+    },
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "nativewind-env.d.ts"
-  ]
+    "nativewind-env.d.ts",
+  ],
 }
