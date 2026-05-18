@@ -10,10 +10,10 @@ export const ScreenContainer: React.FC<ScreenContainerProps> = ({
   children,
 }) => {
   return (
-    <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
+    <SafeAreaView className="flex-1 bg-slate-50" edges={['top', 'bottom']}>
       <ScrollView
         className="flex-1 gap-4"
-        contentContainerClassName="p-4"
+        contentContainerClassName="flex-grow p-4"
         keyboardShouldPersistTaps="handled">
         {children}
       </ScrollView>

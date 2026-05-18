@@ -15,7 +15,11 @@ const priceSchema = z
 
 export const workFormSchema = z.object({
   name: z.string().trim().min(1, 'Informe o nome do serviço'),
-  description: z.string().trim().optional().or(z.literal('')),
+  description: z
+    .string()
+    .trim()
+    .transform((value) => (value === '' ? null : value))
+    .nullable(),
   price: priceSchema,
   status: z.enum(['active', 'inactive']).default('active'),
 });

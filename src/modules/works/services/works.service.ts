@@ -1,4 +1,4 @@
-import { generateId } from '@/shared/utils/id';
+import { generateId } from '@/shared/ui/utils/id';
 import { worksRepository } from '../repositories/works.repository';
 import {
   CreateWorkInput,

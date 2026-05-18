@@ -5,10 +5,12 @@ import {
 } from '../schemas/work.form.schema';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Text, View, Switch } from 'react-native';
+import { Text, View } from 'react-native';
 import { Input } from '@/shared/ui/Input';
 import { Card } from '@/shared/ui/Card';
 import { TextArea } from '@/shared/ui/TextArea';
+import { Toggle } from '@/shared/ui/Toggle';
+import { Button } from '@/shared/ui/Button';
 
 type WorkFormProps = {
   defaultValues?: Partial<WorkFormInput>;
@@ -27,85 +29,117 @@ export const WorkForm: React.FC<WorkFormProps> = ({
 }) => {
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
   } = useForm<WorkFormInput, unknown, WorkFormData>({
     resolver: zodResolver(workFormSchema),
     defaultValues: {
       name: defaultValues?.name ?? '',
-      description: defaultValues?.description ?? '',
+      description: defaultValues?.description ?? null,
       price: defaultValues?.price ?? '',
       status: defaultValues?.status ?? 'active',
     },
   });
 
   return (
-    <View className="gap-4 pt-4">
-      <Card>
-        <View className="gap-4">
-          <Controller
-            control={control}
-            name="name"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                label="Nome *"
-                placeholder="Ex: Coroa em zircônia"
-                onChangeText={onChange}
-                value={value}
-                onBlur={onBlur}
-                editable={!isSubmitting}
-                hasError={!!errors.name}
-                errorMessage={errors.name?.message}
-              />
-            )}
-          />
+    <View className="flex-1 justify-between gap-4">
+      <View className="gap-4">
+        <Card>
+          <View className="gap-4">
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Nome *"
+                  placeholder="Ex: Coroa em zircônia"
+                  onChangeText={onChange}
+                  value={value}
+                  onBlur={onBlur}
+                  editable={!isSubmitting}
+                  hasError={!!errors.name}
+                  errorMessage={errors.name?.message}
+                />
+              )}
+            />
 
-          <Controller
-            control={control}
-            name="description"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextArea
-                label="Descrição"
-                placeholder="Detalhes do serviço (opcional)"
-                onChangeText={onChange}
-                value={value}
-                onBlur={onBlur}
-                editable={!isSubmitting}
-                hasError={!!errors.name}
-                errorMessage={errors.name?.message}
-              />
-            )}
-          />
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextArea
+                  label="Descrição"
+                  placeholder="Detalhes do serviço (opcional)"
+                  onChangeText={onChange}
+                  value={value ?? ''}
+                  onBlur={onBlur}
+                  editable={!isSubmitting}
+                  hasError={!!errors.description}
+                  errorMessage={errors.description?.message}
+                />
+              )}
+            />
 
-          <Controller
-            control={control}
-            name="price"
-            render={({ field: { onChange, onBlur, value } }) => (
-              <Input
-                label="Preço *"
-                placeholder="Ex: R$ 100,00"
-                onChangeText={onChange}
-                value={value?.toString()}
-                onBlur={onBlur}
-                editable={!isSubmitting}
-                hasError={!!errors.price}
-                errorMessage={errors.price?.message}
-              />
-            )}
-          />
-        </View>
-      </Card>
-      <Card>
-        <View className="flex-row items-center justify-between">
-          <View>
-            <Text className="font-semibold text-slate-900">Status ativo</Text>
-            <Text className="text-sm text-slate-500">
-              Disponível para novas notas
-            </Text>
+            <Controller
+              control={control}
+              name="price"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  label="Preço *"
+                  placeholder="Ex: R$ 100,00"
+                  onChangeText={onChange}
+                  value={value?.toString()}
+                  onBlur={onBlur}
+                  editable={!isSubmitting}
+                  hasError={!!errors.price}
+                  errorMessage={errors.price?.message}
+                />
+              )}
+            />
           </View>
-          <Switch />
-        </View>
-      </Card>
+        </Card>
+        <Card>
+          <View className="flex-row items-center justify-between">
+            <View>
+              <Text className="font-semibold text-slate-900">Status ativo</Text>
+              <Text className="text-sm text-slate-500">
+                Disponível para novas notas
+              </Text>
+            </View>
+            <Controller
+              control={control}
+              name="status"
+              render={({ field: { onChange, value } }) => (
+                <Toggle
+                  disabled={isSubmitting}
+                  onValueChange={(e) => onChange(e ? 'active' : 'inactive')}
+                  value={value === 'active'}
+                />
+              )}
+            />
+          </View>
+        </Card>
+      </View>
+      <View className="flex-row items-center gap-2 ">
+        {onCancel && (
+          <Button
+            variant="secondary"
+            size="lg"
+            disabled={isSubmitting}
+            onPress={onCancel}
+            className="flex-1">
+            Cancelar
+          </Button>
+        )}
+        <Button
+          size="lg"
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+          onPress={handleSubmit(onSubmit)}
+          className="flex-1">
+          {submitLabel}
+        </Button>
+      </View>
     </View>
   );
 };

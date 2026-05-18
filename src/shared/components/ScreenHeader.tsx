@@ -1,6 +1,5 @@
 import { Text, View } from 'react-native';
 import { Button } from '../ui/Button';
-import { useRouter } from 'expo-router';
 
 type ScreenHeaderProps = {
   title: string;
@@ -16,7 +15,7 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   onCreate,
 }) => {
   return (
-    <View className="flex-1 flex-col">
+    <View className="flex-col mb-6">
       <View className="flex-row items-center justify-between ">
         <View className="flex-row items-center gap-4">
           {onBack && !onCreate && (

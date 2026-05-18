@@ -22,13 +22,13 @@ export const WorkListHeaderScreen: React.FC<WorkHeaderScreenProps> = ({
   onCreate,
 }) => {
   return (
-    <View className="flex-1 gap-4">
+    <View className="flex-1">
       <ScreenHeader
         title="Serviços"
         subtitle="Catálogo de serviços"
         onCreate={onCreate}
       />
-      <View className="flex-1 gap-4">
+      <View className=" gap-4">
         <SearchInput
           placeholder="Buscar serviço"
           value={searchText}
