@@ -19,9 +19,10 @@ export const WorkCard: React.FC<WorkCardProps> = ({ item, onEdit }) => {
         </Text>
         <Badge status={item.status} />
       </View>
-      <Text className="mb-4 truncate border-b border-slate-100 pb-4   text-slate-500">
-        {item.description}
-      </Text>
+      {item.description && (
+        <Text className="truncate text-slate-500">{item.description}</Text>
+      )}
+      <View className="mb-4 border-b border-slate-100 pb-4"></View>
       <View className="flex-row items-center justify-between">
         <MoneyText size="xl" amount={item.price} />
         <View className="flex flex-row items-center  gap-1">

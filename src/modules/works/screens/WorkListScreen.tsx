@@ -23,6 +23,10 @@ export const WorkListScreen: React.FC = () => {
     router.push('/works/create');
   };
 
+  const handleEdit = (id: string) => {
+    router.push(`/works/${id}`);
+  };
+
   const statusOptions: StatusOptions[] = [
     { value: 'active', label: 'Ativo', count: countByStatus?.active ?? 0 },
     {
@@ -43,7 +47,9 @@ export const WorkListScreen: React.FC = () => {
     <ListScreenContainer
       data={works ?? []}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <WorkCard item={item} onEdit={() => {}} />}
+      renderItem={({ item }) => (
+        <WorkCard item={item} onEdit={() => handleEdit(item.id)} />
+      )}
       header={
         <WorkListHeaderScreen
           statusOptions={statusOptions}

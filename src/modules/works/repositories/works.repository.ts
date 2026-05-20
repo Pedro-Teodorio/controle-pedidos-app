@@ -65,14 +65,11 @@ const updateWork = async (id: string, data: UpdateWorkData): Promise<void> => {
   }
 };
 
-const inactivateWork = async (id: string, updatedAt: string): Promise<void> => {
+const deleteWork = async (id: string): Promise<void> => {
   try {
-    await db
-      .update(works)
-      .set({ status: 'inactive', updatedAt })
-      .where(eq(works.id, id));
+    await db.delete(works).where(eq(works.id, id));
   } catch (error) {
-    console.error(`[Works Repository] Erro ao inativar work ${id}:`, error);
+    console.error(`[Works Repository] Erro ao deletar work ${id}:`, error);
     throw error;
   }
 };
@@ -105,6 +102,6 @@ export const worksRepository = {
   findAllWorks,
   findWorkById,
   updateWork,
-  inactivateWork,
+  deleteWork,
   countWorksByStatusSummary,
 };

@@ -3,7 +3,7 @@ import { Button } from '../ui/Button';
 
 type ScreenHeaderProps = {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   onBack?: () => void;
   onCreate?: () => void;
 };
@@ -15,7 +15,7 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   onCreate,
 }) => {
   return (
-    <View className="flex-col mb-6">
+    <View className="mb-4 flex-col">
       <View className="flex-row items-center justify-between ">
         <View className="flex-row items-center gap-4">
           {onBack && !onCreate && (
@@ -27,9 +27,11 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
               onPress={onBack}
             />
           )}
-          <View className="gap-1">
+          <View>
             <Text className="text-3xl font-bold text-slate-950">{title}</Text>
-            <Text className="text-base text-slate-500">{subtitle}</Text>
+            {subtitle && (
+              <Text className="text-base text-slate-500">{subtitle}</Text>
+            )}
           </View>
         </View>
         {onCreate && !onBack && (

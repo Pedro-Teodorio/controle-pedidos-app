@@ -18,6 +18,7 @@ type WorkFormProps = {
   submitLabel?: string;
   onCancel?: () => void;
   onSubmit: (data: WorkFormData) => Promise<void> | void;
+  onDelete?: () => void;
 };
 
 export const WorkForm: React.FC<WorkFormProps> = ({
@@ -26,6 +27,7 @@ export const WorkForm: React.FC<WorkFormProps> = ({
   submitLabel = 'Salvar',
   onCancel,
   onSubmit,
+  onDelete,
 }) => {
   const {
     control,
@@ -33,7 +35,7 @@ export const WorkForm: React.FC<WorkFormProps> = ({
     handleSubmit,
   } = useForm<WorkFormInput, unknown, WorkFormData>({
     resolver: zodResolver(workFormSchema),
-    defaultValues: {
+    values: {
       name: defaultValues?.name ?? '',
       description: defaultValues?.description ?? null,
       price: defaultValues?.price ?? '',
@@ -93,6 +95,7 @@ export const WorkForm: React.FC<WorkFormProps> = ({
                   editable={!isSubmitting}
                   hasError={!!errors.price}
                   errorMessage={errors.price?.message}
+                  keyboardType="decimal-pad"
                 />
               )}
             />
@@ -119,6 +122,16 @@ export const WorkForm: React.FC<WorkFormProps> = ({
             />
           </View>
         </Card>
+        {defaultValues && (
+          <Button
+            variant="danger_ghost"
+            size="lg"
+            disabled={isSubmitting}
+            onPress={() => onDelete?.()}
+            className="flex-1">
+            Excluir Serviço
+          </Button>
+        )}
       </View>
       <View className="flex-row items-center gap-2 ">
         {onCancel && (

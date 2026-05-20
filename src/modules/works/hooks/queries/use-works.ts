@@ -21,7 +21,7 @@ export const useWorks = (
  * Exemplo:
  * const { data: work, isLoading, error } = useWork('123');
  */
-export const useWork = (id: string): UseQueryResult<Work | null, Error> => {
+export const useWork = (id: string): UseQueryResult<Work, Error> => {
   return useQuery(worksQueryOptions.findById(id));
 };
 

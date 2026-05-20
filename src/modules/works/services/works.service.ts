@@ -63,7 +63,7 @@ const findAllWorks = async (filters: FindAllWorksFilters): Promise<Work[]> => {
   return await worksRepository.findAllWorks(filters);
 };
 
-const findWorkById = async (id: string): Promise<Work | null> => {
+const findWorkById = async (id: string): Promise<Work> => {
   validateId(id);
   const work = await worksRepository.findWorkById(id);
   if (!work) {
@@ -80,7 +80,11 @@ const updateWork = async (
   validateUpdateWorkInput(input);
 
   // Verifica se existe
-  await findWorkById(id);
+  const user = await findWorkById(id);
+
+  if (!user) {
+    throw new Error(`Work ID ${id} não encontrado`);
+  }
 
   const updateData = {
     ...input,
@@ -90,9 +94,17 @@ const updateWork = async (
   await worksRepository.updateWork(id, updateData);
 };
 
-const inactivateWork = async (id: string): Promise<void> => {
+const deleteWork = async (id: string): Promise<void> => {
   validateId(id);
-  await worksRepository.inactivateWork(id, new Date().toISOString());
+
+  // Verifica se existe
+  const work = await findWorkById(id);
+
+  if (!work) {
+    throw new Error(`Work ID ${id} não encontrado`);
+  }
+
+  await worksRepository.deleteWork(id);
 };
 
 const getStatusSummary = async () => {
@@ -104,6 +116,6 @@ export const worksService = {
   findAllWorks,
   findWorkById,
   updateWork,
-  inactivateWork,
+  deleteWork,
   getStatusSummary,
 };
