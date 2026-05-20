@@ -1,19 +1,18 @@
 import { ListScreenContainer } from '@/shared/components/ListScreenContainer';
-import { WorkListHeaderScreen } from '../components/WorkListHeaderScreen';
-import { useState } from 'react';
-import { StatusFilter, StatusOptions } from '../types/works.types';
-import { EmptyState } from '@/shared/components/EmptyState';
-import { Text } from 'react-native';
-import { useWorks, useWorksCountByStatus } from '../hooks/queries/use-works';
-import { Card } from '@/shared/ui/Card';
 import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { WorkCard } from '../components/WorkCard';
+import { WorkEmptyState } from '../components/WorkEmptyState';
+import { WorkListHeaderScreen } from '../components/WorkListHeaderScreen';
+import { useWorks, useWorksCountByStatus } from '../hooks/queries/use-works';
+import { StatusFilter, StatusOptions } from '../types/works.types';
 
 export const WorkListScreen: React.FC = () => {
   const router = useRouter();
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('active');
   const [searchText, setSearchText] = useState('');
 
-  const { data: works } = useWorks({
+  const { data: works, isLoading: worksLoading } = useWorks({
     status: statusFilter,
     search: searchText,
   });
@@ -33,8 +32,16 @@ export const WorkListScreen: React.FC = () => {
     },
   ];
 
+  const normalizedSearchText = searchText.trim();
+
+  const emptyStateVariant =
+    works?.length === 0 && !normalizedSearchText ? 'empty' : 'search';
+
   return (
     <ListScreenContainer
+      data={works ?? []}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <WorkCard item={item} onEdit={() => {}} />}
       header={
         <WorkListHeaderScreen
           statusOptions={statusOptions}
@@ -46,23 +53,12 @@ export const WorkListScreen: React.FC = () => {
         />
       }
       empty={
-        <EmptyState
-          title="Sem serviços ainda"
-          description="Crie um novo serviço para começar"
-          action="Novo serviço"
-          iconName="Tag"
+        <WorkEmptyState
+          variant={emptyStateVariant}
+          isLoading={worksLoading}
           onAction={handleCreate}
         />
       }
-      data={works ?? []}
-      renderItem={({ item }) => (
-        <Card>
-          <Text>{item.name}</Text>
-          <Text>{item.description}</Text>
-          <Text>{item.status}</Text>
-          <Text>{item.price}</Text>
-        </Card>
-      )}
     />
   );
 };
