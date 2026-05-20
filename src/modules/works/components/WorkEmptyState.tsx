@@ -26,20 +26,20 @@ export const WorkEmptyState: React.FC<WorkEmptyStateProps> = ({
 
   const emptyStateVariant: EmptyStateVariant = isSearch
     ? {
-        title: 'Sem serviços ainda',
-        description: 'Crie um novo serviço para começar',
-        action: 'Novo serviço',
-        iconName: Icon,
-        onAction: onAction,
-        isLoading: isLoading,
-      }
-    : {
         title: 'Nenhum serviço encontrado',
         description:
           'Tente buscar por outro nome ou altere o filtro selecionado',
         action: '',
         iconName: Icon,
         onAction: () => {},
+        isLoading: isLoading,
+      }
+    : {
+        title: 'Sem serviços ainda',
+        description: 'Crie um novo serviço para começar',
+        action: 'Novo serviço',
+        iconName: Icon,
+        onAction: onAction,
         isLoading: isLoading,
       };
 

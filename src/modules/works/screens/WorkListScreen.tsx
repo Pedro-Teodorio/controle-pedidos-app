@@ -35,7 +35,9 @@ export const WorkListScreen: React.FC = () => {
   const normalizedSearchText = searchText.trim();
 
   const emptyStateVariant =
-    works?.length === 0 && !normalizedSearchText ? 'empty' : 'search';
+    works?.length === 0 && statusFilter === 'active' && !normalizedSearchText
+      ? 'empty'
+      : 'search';
 
   return (
     <ListScreenContainer
