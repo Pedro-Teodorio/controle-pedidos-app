@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator';
 import { db } from '@/database/client';
 import { Text, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const RootLayout = () => {
   const queryClient = new QueryClient();
@@ -31,10 +32,12 @@ const RootLayout = () => {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="works" options={{ headerShown: false }} />
-        </Stack>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="works" options={{ headerShown: false }} />
+          </Stack>
+        </GestureHandlerRootView>
         <StatusBar style="auto" />
       </QueryClientProvider>
     </>

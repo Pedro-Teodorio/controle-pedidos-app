@@ -7,14 +7,20 @@ import { useEditWorkMutation } from '../hooks/mutations/use-edit-work-mutation';
 import { WorkFormData } from '../schemas/work.form.schema';
 import { Alert } from 'react-native';
 import { useDeleteWorkMutation } from '../hooks/mutations/use-delete-work-mutation';
+import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
+import { useBottomSheet } from '@/shared/hooks/useBottomSheet';
 
 export const EditWorkScreen = () => {
   const { id } = useLocalSearchParams<{ id: 'string' }>();
+  const { bottomSheetRef, handleOpenBottomSheet, handleCloseBottomSheet } =
+    useBottomSheet();
+
   const router = useRouter();
 
   const { data: work } = useWork(id);
   const { mutateAsync: editWork, isPending } = useEditWorkMutation();
-  const { mutateAsync: deleteWork } = useDeleteWorkMutation();
+  const { mutateAsync: deleteWork, isPending: isDeleting } =
+    useDeleteWorkMutation();
 
   const handleSubmit = async (data: WorkFormData) => {
     try {
@@ -37,20 +43,33 @@ export const EditWorkScreen = () => {
   };
 
   return (
-    <ScreenContainer>
-      <ScreenHeader
-        title="Editar serviço"
-        subtitle={work?.name}
-        onBack={() => router.back()}
+    <>
+      <ScreenContainer>
+        <ScreenHeader
+          title="Editar serviço"
+          subtitle={work?.name}
+          onBack={() => router.back()}
+        />
+        <WorkForm
+          onSubmit={handleSubmit}
+          onCancel={() => router.back()}
+          onDelete={handleOpenBottomSheet}
+          isSubmitting={isPending}
+          submitLabel="Editar"
+          defaultValues={work}
+        />
+      </ScreenContainer>
+      <ConfirmDialog
+        bottomSheetRef={bottomSheetRef}
+        title="Excluir serviço?"
+        description="O serviço será removido permanentemente do catálogo."
+        confirmText="Excluir"
+        cancelText="Voltar"
+        onConfirm={handleDelete}
+        onCancel={handleCloseBottomSheet}
+        isSubmitting={isDeleting}
+        destructive
       />
-      <WorkForm
-        onSubmit={handleSubmit}
-        onCancel={() => router.back()}
-        onDelete={handleDelete}
-        isSubmitting={isPending}
-        submitLabel="Editar"
-        defaultValues={work}
-      />
-    </ScreenContainer>
+    </>
   );
 };

@@ -122,13 +122,12 @@ export const WorkForm: React.FC<WorkFormProps> = ({
             />
           </View>
         </Card>
-        {defaultValues && (
+        {defaultValues?.name && (
           <Button
             variant="danger_ghost"
             size="lg"
             disabled={isSubmitting}
-            onPress={() => onDelete?.()}
-            className="flex-1">
+            onPress={() => onDelete?.()}>
             Excluir Serviço
           </Button>
         )}
