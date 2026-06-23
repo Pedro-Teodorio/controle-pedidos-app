@@ -82,7 +82,7 @@ src/database/
 ```ts
 import { real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-export const orderStatus = ['open', 'closed', 'cancelled'] as const;
+export const orderStatus = ['open', 'closed', 'canceled'] as const;
 
 export const orders = sqliteTable('orders', {
   id: text('id').primaryKey(),
