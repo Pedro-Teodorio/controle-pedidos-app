@@ -29,7 +29,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
       <View className="flex flex-col items-center justify-center gap-1">
         <Text className="text-xl font-bold text-slate-900 ">{title}</Text>
         {description && (
-          <Text className="text-center text-lg text-slate-500">{description}</Text>
+          <Text className="text-center text-lg text-slate-500">
+            {description}
+          </Text>
         )}
       </View>
       {action && <Button onPress={onAction}>{action}</Button>}
