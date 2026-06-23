@@ -10,20 +10,21 @@ import { db } from '@/database/client';
 import { Text, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+const queryClient = new QueryClient();
+
 const RootLayout = () => {
-  const queryClient = new QueryClient();
   const { success, error } = useMigrations(db, migrations);
 
   if (error) {
     return (
-      <View className="p=4 flex-1 items-center justify-center">
+      <View className="flex-1 items-center justify-center p-4">
         <Text>Erro ao preparar banco de dados: {error.message}</Text>
       </View>
     );
   }
   if (!success) {
     return (
-      <View className="p=4 flex-1 items-center justify-center">
+      <View className="flex-1 items-center justify-center p-4">
         <Text>Preparando banco de dados...</Text>
       </View>
     );
