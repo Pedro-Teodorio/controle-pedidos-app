@@ -26,10 +26,18 @@ export const Card: React.FC<CardProps> = ({
   selected,
   disabled,
   onPress,
+  className,
 }) => {
+  const isDisabled = Boolean(disabled);
+
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View className={card({ selected, disabled })}>{children}</View>
+    <TouchableWithoutFeedback
+      onPress={isDisabled ? undefined : onPress}
+      disabled={isDisabled}
+      accessibilityState={{ disabled: isDisabled }}>
+      <View className={`${card({ selected, disabled })} ${className ?? ''}`}>
+        {children}
+      </View>
     </TouchableWithoutFeedback>
   );
 };

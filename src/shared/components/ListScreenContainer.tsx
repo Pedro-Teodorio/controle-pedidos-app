@@ -6,11 +6,13 @@ type ListScreenContainerProps<T> = Omit<
   FlatListProps<T>,
   'renderItem' | 'data'
 > & {
-  data: T[];
+  data: readonly T[];
   renderItem: ListRenderItem<T>;
   header?: ReactElement | null;
   empty?: ReactElement | null;
   footer?: ReactElement | null;
+  className?: string;
+  contentContainerClassName?: string;
 };
 
 export function ListScreenContainer<T>({
@@ -19,15 +21,19 @@ export function ListScreenContainer<T>({
   header,
   empty,
   footer,
+  className,
+  contentContainerClassName,
   ...props
 }: ListScreenContainerProps<T>) {
   return (
-    <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
+    <SafeAreaView
+      className={`flex-1 bg-slate-50 ${className ?? ''}`}
+      edges={['top']}>
       <FlatList
         data={data}
         renderItem={renderItem}
         className="flex-1"
-        contentContainerClassName="gap-4 p-4"
+        contentContainerClassName={`gap-4 p-4 ${contentContainerClassName ?? ''}`}
         ListHeaderComponent={header}
         ListEmptyComponent={empty}
         ListFooterComponent={footer}
