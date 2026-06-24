@@ -1,4 +1,6 @@
+import { ErrorState } from '@/shared/components/ErrorState';
 import { ListScreenContainer } from '@/shared/components/ListScreenContainer';
+import { LoadingState } from '@/shared/components/LoadingState';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { WorkCard } from '../components/WorkCard';
@@ -12,7 +14,12 @@ export const WorkListScreen: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('active');
   const [searchText, setSearchText] = useState('');
 
-  const { data: works, isLoading: worksLoading } = useWorks({
+  const {
+    data: works,
+    isLoading: worksLoading,
+    isError: worksIsError,
+    refetch,
+  } = useWorks({
     status: statusFilter,
     search: searchText,
   });
@@ -37,11 +44,34 @@ export const WorkListScreen: React.FC = () => {
   ];
 
   const normalizedSearchText = searchText.trim();
+  const hasWorks = Array.isArray(works) && works.length > 0;
 
   const emptyStateVariant =
-    works?.length === 0 && statusFilter === 'active' && !normalizedSearchText
+    !hasWorks && statusFilter === 'active' && !normalizedSearchText
       ? 'empty'
       : 'search';
+
+  if (worksLoading && !hasWorks) {
+    return (
+      <LoadingState
+        title="Carregando serviços"
+        description="Aguarde enquanto buscamos os dados"
+      />
+    );
+  }
+
+  if (worksIsError) {
+    return (
+      <ErrorState
+        title="Erro ao carregar serviços"
+        description="Não foi possível carregar os serviços. Tente novamente."
+        actionLabel="Tentar novamente"
+        onAction={() => {
+          void refetch();
+        }}
+      />
+    );
+  }
 
   return (
     <ListScreenContainer
@@ -61,11 +91,7 @@ export const WorkListScreen: React.FC = () => {
         />
       }
       empty={
-        <WorkEmptyState
-          variant={emptyStateVariant}
-          isLoading={worksLoading}
-          onAction={handleCreate}
-        />
+        <WorkEmptyState variant={emptyStateVariant} onAction={handleCreate} />
       }
     />
   );
