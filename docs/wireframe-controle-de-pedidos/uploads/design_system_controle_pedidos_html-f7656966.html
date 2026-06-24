@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design System — Controle de Pedidos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EFF6FF',
+              100: '#DBEAFE',
+              500: '#1D4ED8',
+              600: '#1E40AF',
+              700: '#1E3A8A'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+  <main class="mx-auto max-w-6xl px-6 py-10">
+    <header class="mb-12 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-blue-600">Design System</p>
+          <h1 class="text-4xl font-bold tracking-tight text-slate-950">Controle de Pedidos</h1>
+          <p class="mt-3 max-w-2xl text-base leading-7 text-slate-600">
+            Guia visual para um app mobile moderno, intuitivo e minimalista usando React Native, NativeWind e componentes padrão do React Native.
+          </p>
+        </div>
+        <div class="rounded-2xl bg-slate-100 px-4 py-3 text-sm text-slate-600">
+          Stack visual: <span class="font-semibold text-slate-900">NativeWind + React Native</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">1. Princípios visuais</h2>
+      <div class="grid gap-4 md:grid-cols-4">
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-semibold text-slate-950">Clareza</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Informações importantes sempre visíveis: cliente, status, total e número da nota.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-semibold text-slate-950">Rapidez</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Ações principais com poucos toques: criar, salvar, finalizar, gerar PDF e compartilhar.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-semibold text-slate-950">Confiança</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Visual limpo, textos objetivos e feedback claro em ações importantes.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-semibold text-slate-950">Minimalismo</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Poucas cores, espaçamento generoso e componentes consistentes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">2. Paleta de cores</h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="mb-4 font-semibold">Primária</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-blue-600"></span><div><p class="font-medium">Primary</p><code class="text-sm text-slate-500">bg-blue-600 / #1D4ED8</code></div></div>
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-blue-700"></span><div><p class="font-medium">Primary Dark</p><code class="text-sm text-slate-500">bg-blue-700 / #1E40AF</code></div></div>
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-blue-900"></span><div><p class="font-medium">Primary Strong</p><code class="text-sm text-slate-500">bg-blue-900 / #1E3A8A</code></div></div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="mb-4 font-semibold">Neutros</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl border bg-slate-50"></span><div><p class="font-medium">Background</p><code class="text-sm text-slate-500">bg-slate-50 / #F8FAFC</code></div></div>
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl border bg-white"></span><div><p class="font-medium">Surface</p><code class="text-sm text-slate-500">bg-white / #FFFFFF</code></div></div>
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-slate-200"></span><div><p class="font-medium">Border</p><code class="text-sm text-slate-500">border-slate-200 / #E2E8F0</code></div></div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="mb-4 font-semibold">Semânticas</h3>
+          <div class="space-y-3">
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-green-600"></span><div><p class="font-medium">Success</p><code class="text-sm text-slate-500">bg-green-600</code></div></div>
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-amber-500"></span><div><p class="font-medium">Warning</p><code class="text-sm text-slate-500">bg-amber-500</code></div></div>
+            <div class="flex items-center gap-3"><span class="h-10 w-10 rounded-xl bg-red-600"></span><div><p class="font-medium">Danger</p><code class="text-sm text-slate-500">bg-red-600</code></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">3. Tokens em Tailwind / NativeWind</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="mb-3 font-semibold">Layout</h3>
+          <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>Screen background: bg-slate-50
+Surface: bg-white
+Card: rounded-2xl border border-slate-200 bg-white p-4
+Section gap: gap-4 / gap-6
+Page padding: px-4 py-6
+Button height: h-12
+Input height: h-12</code></pre>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="mb-3 font-semibold">Texto</h3>
+          <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>Title: text-2xl font-bold text-slate-950
+Subtitle: text-sm text-slate-500
+Body: text-base text-slate-700
+Caption: text-xs font-medium text-slate-500
+Money: text-lg font-bold text-blue-600</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">4. Componentes base</h2>
+      <div class="space-y-6">
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="mb-5 flex items-center justify-between gap-4">
+            <div>
+              <h3 class="text-xl font-bold">Button</h3>
+              <p class="mt-1 text-sm text-slate-500">Referência: <code>src/shared/ui/Button.tsx</code></p>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <button class="h-12 rounded-xl bg-blue-600 px-5 text-sm font-semibold text-white shadow-sm">Salvar</button>
+            <button class="h-12 rounded-xl border border-slate-200 bg-white px-5 text-sm font-semibold text-slate-900">Cancelar</button>
+            <button class="h-12 rounded-xl bg-red-600 px-5 text-sm font-semibold text-white shadow-sm">Excluir</button>
+            <button class="h-12 rounded-xl px-5 text-sm font-semibold text-blue-600">Ver detalhes</button>
+          </div>
+          <pre class="mt-5 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>// React Native + NativeWind
+&lt;Pressable className="h-12 items-center justify-center rounded-xl bg-blue-600 px-5"&gt;
+  &lt;Text className="text-sm font-semibold text-white"&gt;Salvar&lt;/Text&gt;
+&lt;/Pressable&gt;</code></pre>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-xl font-bold">Input</h3>
+          <p class="mt-1 text-sm text-slate-500">Referência: <code>src/shared/ui/Input.tsx</code></p>
+          <div class="mt-5 grid gap-4 md:grid-cols-2">
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium text-slate-700">Nome do serviço</span>
+              <input class="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none ring-blue-600 placeholder:text-slate-400 focus:ring-2" placeholder="Ex: Aplicação de porcelana" />
+            </label>
+            <label class="block">
+              <span class="mb-2 block text-sm font-medium text-slate-700">Preço</span>
+              <input class="h-12 w-full rounded-xl border border-red-300 bg-white px-4 text-sm outline-none ring-red-500 placeholder:text-slate-400 focus:ring-2" placeholder="R$ 0,00" />
+              <p class="mt-2 text-xs font-medium text-red-600">Informe um preço válido</p>
+            </label>
+          </div>
+          <pre class="mt-5 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;Text className="mb-2 text-sm font-medium text-slate-700"&gt;Nome&lt;/Text&gt;
+&lt;TextInput
+  className="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900"
+  placeholder="Ex: Serviço"
+/&gt;</code></pre>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-xl font-bold">Card</h3>
+          <p class="mt-1 text-sm text-slate-500">Referência: <code>src/shared/ui/Card.tsx</code></p>
+          <div class="mt-5 grid gap-4 md:grid-cols-3">
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p class="text-sm text-slate-500">Notas abertas</p>
+              <p class="mt-2 text-3xl font-bold text-slate-950">12</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p class="text-sm text-slate-500">Finalizadas hoje</p>
+              <p class="mt-2 text-3xl font-bold text-green-600">8</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <p class="text-sm text-slate-500">Total do dia</p>
+              <p class="mt-2 text-3xl font-bold text-blue-600">R$ 840</p>
+            </div>
+          </div>
+          <pre class="mt-5 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;View className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"&gt;
+  {children}
+&lt;/View&gt;</code></pre>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-xl font-bold">Badge / Status</h3>
+          <p class="mt-1 text-sm text-slate-500">Referência: <code>src/shared/ui/Badge.tsx</code></p>
+          <div class="mt-5 flex flex-wrap gap-3">
+            <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">Aberta</span>
+            <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Finalizada</span>
+            <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">Cancelada</span>
+            <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">Informação</span>
+          </div>
+          <pre class="mt-5 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;View className="rounded-full bg-green-100 px-3 py-1"&gt;
+  &lt;Text className="text-xs font-semibold text-green-700"&gt;Finalizada&lt;/Text&gt;
+&lt;/View&gt;</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">5. Componentes de domínio</h2>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-xl font-bold">ServicoCard</h3>
+          <p class="mt-1 text-sm text-slate-500">Referência: <code>src/modules/servicos/components/ServicoCard.tsx</code></p>
+          <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <h4 class="text-base font-semibold text-slate-950">Aplicação de porcelana</h4>
+                <p class="mt-1 text-sm leading-6 text-slate-500">Serviço complementar de acabamento.</p>
+              </div>
+              <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Ativo</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
+              <p class="text-lg font-bold text-blue-600">R$ 90,00</p>
+              <div class="flex gap-2">
+                <button class="rounded-xl border border-slate-200 px-3 py-2 text-xs font-semibold text-slate-700">Editar</button>
+                <button class="rounded-xl px-3 py-2 text-xs font-semibold text-red-600">Inativar</button>
+              </div>
+            </div>
+          </div>
+          <pre class="mt-5 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;View className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"&gt;
+  &lt;View className="flex-row items-start justify-between gap-4"&gt;
+    &lt;View className="flex-1"&gt;
+      &lt;Text className="text-base font-semibold text-slate-950"&gt;{nome}&lt;/Text&gt;
+      &lt;Text className="mt-1 text-sm text-slate-500"&gt;{descricao}&lt;/Text&gt;
+    &lt;/View&gt;
+    &lt;Badge variant="success"&gt;Ativo&lt;/Badge&gt;
+  &lt;/View&gt;
+
+  &lt;View className="mt-4 border-t border-slate-100 pt-4"&gt;
+    &lt;Text className="text-lg font-bold text-blue-600"&gt;{precoFormatado}&lt;/Text&gt;
+  &lt;/View&gt;
+&lt;/View&gt;</code></pre>
+        </article>
+
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h3 class="text-xl font-bold">NotaCard</h3>
+          <p class="mt-1 text-sm text-slate-500">Referência: <code>src/modules/notas/components/NotaCard.tsx</code></p>
+          <div class="mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">Nota #0012</p>
+                <h4 class="mt-1 text-base font-semibold text-slate-950">João da Silva</h4>
+                <p class="mt-1 text-sm text-slate-500">07/05/2026 · 4 itens</p>
+              </div>
+              <span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">Aberta</span>
+            </div>
+            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-4">
+              <p class="text-sm text-slate-500">Total</p>
+              <p class="text-xl font-bold text-blue-600">R$ 360,00</p>
+            </div>
+          </div>
+          <pre class="mt-5 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;Pressable className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"&gt;
+  &lt;View className="flex-row items-start justify-between"&gt;
+    &lt;View&gt;
+      &lt;Text className="text-xs font-semibold uppercase text-slate-400"&gt;Nota #{numero}&lt;/Text&gt;
+      &lt;Text className="mt-1 text-base font-semibold text-slate-950"&gt;{clienteNome}&lt;/Text&gt;
+      &lt;Text className="mt-1 text-sm text-slate-500"&gt;{data} · {itens} itens&lt;/Text&gt;
+    &lt;/View&gt;
+    &lt;Badge variant={status} /&gt;
+  &lt;/View&gt;
+&lt;/Pressable&gt;</code></pre>
+        </article>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">6. Telas — referências visuais</h2>
+      <div class="grid gap-6 lg:grid-cols-3">
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <div class="rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-6">
+              <p class="text-sm text-slate-500">Olá</p>
+              <h3 class="mt-1 text-2xl font-bold text-slate-950">Início</h3>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div class="rounded-2xl bg-white p-4 shadow-sm"><p class="text-xs text-slate-500">Abertas</p><p class="mt-2 text-2xl font-bold">12</p></div>
+              <div class="rounded-2xl bg-white p-4 shadow-sm"><p class="text-xs text-slate-500">Hoje</p><p class="mt-2 text-2xl font-bold text-green-600">8</p></div>
+            </div>
+            <button class="mt-4 h-12 w-full rounded-xl bg-blue-600 text-sm font-semibold text-white">Nova nota</button>
+            <div class="mt-5 space-y-3">
+              <div class="h-16 rounded-2xl bg-white shadow-sm"></div>
+              <div class="h-16 rounded-2xl bg-white shadow-sm"></div>
+            </div>
+          </div>
+          <p class="mt-4 text-center text-sm font-semibold text-slate-700">Dashboard</p>
+        </article>
+
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <div class="rounded-[1.5rem] bg-slate-50 p-4">
+            <h3 class="text-2xl font-bold text-slate-950">Serviços</h3>
+            <div class="mt-4 h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-400 flex items-center">Buscar serviço</div>
+            <div class="mt-5 space-y-3">
+              <div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-semibold">Copping</p><p class="mt-1 text-sm text-slate-500">R$ 90,00</p></div>
+              <div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-semibold">Porcelana</p><p class="mt-1 text-sm text-slate-500">R$ 200,00</p></div>
+              <div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-semibold">Ajuste</p><p class="mt-1 text-sm text-slate-500">R$ 50,00</p></div>
+            </div>
+          </div>
+          <p class="mt-4 text-center text-sm font-semibold text-slate-700">Lista de serviços</p>
+        </article>
+
+        <article class="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-sm">
+          <div class="rounded-[1.5rem] bg-slate-50 p-4">
+            <h3 class="text-2xl font-bold text-slate-950">Nova nota</h3>
+            <div class="mt-4 space-y-3">
+              <div class="h-12 rounded-xl border border-slate-200 bg-white"></div>
+              <div class="h-12 rounded-xl border border-slate-200 bg-white"></div>
+              <div class="rounded-2xl bg-white p-4 shadow-sm">
+                <div class="mb-3 flex items-center justify-between"><p class="font-semibold">Itens</p><button class="text-sm font-semibold text-blue-600">Adicionar</button></div>
+                <div class="h-12 rounded-xl bg-slate-50"></div>
+              </div>
+              <div class="rounded-2xl bg-blue-600 p-4 text-white"><p class="text-sm opacity-80">Total</p><p class="mt-1 text-2xl font-bold">R$ 360,00</p></div>
+            </div>
+          </div>
+          <p class="mt-4 text-center text-sm font-semibold text-slate-700">Criar nota</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">7. Classes padrão por tela</h2>
+      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div class="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-800">
+          <p class="font-semibold">Regra importante</p>
+          <p class="mt-1">
+            Evite colocar <code>FlatList</code> dentro de <code>ScrollView</code>. Isso pode quebrar virtualização, gerar warnings e causar problemas de performance. Use um container para telas comuns e outro para telas de lista.
+          </p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-2">
+          <div>
+            <h3 class="mb-3 font-semibold">ScreenContainer — telas com conteúdo simples</h3>
+            <p class="mb-3 text-sm leading-6 text-slate-600">
+              Use quando a tela tiver formulário, cards fixos ou conteúdo pequeno. Exemplo: novo serviço, editar serviço, ajustes e detalhe da nota.
+            </p>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;SafeAreaView className="flex-1 bg-slate-50"&gt;
+  &lt;ScrollView
+    className="flex-1"
+    contentContainerClassName="px-4 py-6"
+    keyboardShouldPersistTaps="handled"
+  &gt;
+    {children}
+  &lt;/ScrollView&gt;
+&lt;/SafeAreaView&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="mb-3 font-semibold">ListScreenContainer — telas com FlatList</h3>
+            <p class="mb-3 text-sm leading-6 text-slate-600">
+              Use quando a tela principal for uma lista. A própria <code>FlatList</code> deve controlar o scroll da tela.
+            </p>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;SafeAreaView className="flex-1 bg-slate-50"&gt;
+  &lt;FlatList
+    className="flex-1"
+    contentContainerClassName="gap-3 px-4 py-6"
+    data={data}
+    renderItem={({ item }) =&gt; &lt;ServicoCard servico={item} /&gt;}
+    ListHeaderComponent={&lt;ServicosHeader /&gt;}
+    ListEmptyComponent={&lt;EmptyState title="Nenhum serviço cadastrado" /&gt;}
+    keyboardShouldPersistTaps="handled"
+  /&gt;
+&lt;/SafeAreaView&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="mb-3 font-semibold">Header de tela</h3>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;View className="mb-6"&gt;
+  &lt;Text className="text-2xl font-bold text-slate-950"&gt;Serviços&lt;/Text&gt;
+  &lt;Text className="mt-1 text-sm text-slate-500"&gt;Gerencie os serviços cadastrados&lt;/Text&gt;
+&lt;/View&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="mb-3 font-semibold">Lista</h3>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;FlatList
+  className="flex-1"
+  contentContainerClassName="gap-3 px-4 py-6"
+  data={data}
+  keyExtractor={(item) =&gt; item.id}
+  renderItem={({ item }) =&gt; &lt;ServicoCard servico={item} /&gt;}
+/&gt;</code></pre>
+          </div>
+
+          <div>
+            <h3 class="mb-3 font-semibold">Rodapé fixo</h3>
+            <pre class="overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm text-slate-100"><code>&lt;View className="border-t border-slate-200 bg-white px-4 py-4"&gt;
+  &lt;Button&gt;Salvar&lt;/Button&gt;
+&lt;/View&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">8. Mapa de componentes</h2>
+      <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+        <table class="w-full border-collapse text-left text-sm">
+          <thead class="bg-slate-100 text-slate-700">
+            <tr>
+              <th class="p-4 font-semibold">Componente</th>
+              <th class="p-4 font-semibold">Arquivo</th>
+              <th class="p-4 font-semibold">Classes principais</th>
+              <th class="p-4 font-semibold">Uso</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            <tr><td class="p-4 font-medium">Button</td><td class="p-4"><code>src/shared/ui/Button.tsx</code></td><td class="p-4"><code>h-12 rounded-xl px-5</code></td><td class="p-4 text-slate-600">Ações primárias, secundárias e destrutivas.</td></tr>
+            <tr><td class="p-4 font-medium">Input</td><td class="p-4"><code>src/shared/ui/Input.tsx</code></td><td class="p-4"><code>h-12 rounded-xl border px-4</code></td><td class="p-4 text-slate-600">Campos de formulário.</td></tr>
+            <tr><td class="p-4 font-medium">Card</td><td class="p-4"><code>src/shared/ui/Card.tsx</code></td><td class="p-4"><code>rounded-2xl border bg-white p-4</code></td><td class="p-4 text-slate-600">Blocos de conteúdo e listagens.</td></tr>
+            <tr><td class="p-4 font-medium">Badge</td><td class="p-4"><code>src/shared/ui/Badge.tsx</code></td><td class="p-4"><code>rounded-full px-3 py-1</code></td><td class="p-4 text-slate-600">Status de nota ou serviço.</td></tr>
+            <tr><td class="p-4 font-medium">MoneyText</td><td class="p-4"><code>src/shared/ui/MoneyText.tsx</code></td><td class="p-4"><code>text-lg font-bold text-blue-600</code></td><td class="p-4 text-slate-600">Valores monetários.</td></tr>
+            <tr><td class="p-4 font-medium">EmptyState</td><td class="p-4"><code>src/shared/components/EmptyState.tsx</code></td><td class="p-4"><code>items-center rounded-2xl p-8</code></td><td class="p-4 text-slate-600">Telas vazias.</td></tr>
+            <tr><td class="p-4 font-medium">ServicoCard</td><td class="p-4"><code>src/modules/servicos/components/ServicoCard.tsx</code></td><td class="p-4"><code>rounded-2xl border bg-white p-4</code></td><td class="p-4 text-slate-600">Listagem de serviços.</td></tr>
+            <tr><td class="p-4 font-medium">NotaCard</td><td class="p-4"><code>src/modules/notas/components/NotaCard.tsx</code></td><td class="p-4"><code>rounded-2xl border bg-white p-4</code></td><td class="p-4 text-slate-600">Listagem de notas.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">9. Regras finais de UI</h2>
+      <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <ul class="grid gap-3 text-sm leading-6 text-slate-700 md:grid-cols-2">
+          <li class="rounded-xl bg-slate-50 p-4">Use <code class="font-semibold">bg-slate-50</code> como fundo padrão das telas.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Use <code class="font-semibold">bg-white rounded-2xl border border-slate-200</code> para cards.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Botões principais sempre com <code class="font-semibold">bg-blue-600 text-white</code>.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Ações destrutivas sempre em vermelho e com confirmação.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Valores totais devem usar <code class="font-semibold">text-blue-600 font-bold</code>.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Status devem usar badges semânticos: aberta, finalizada e cancelada.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Evite telas densas: prefira espaçamento <code class="font-semibold">gap-4</code> e <code class="font-semibold">py-6</code>.</li>
+          <li class="rounded-xl bg-slate-50 p-4">Componentes de domínio devem reutilizar os componentes de <code class="font-semibold">shared/ui</code>.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

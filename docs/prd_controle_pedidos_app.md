@@ -15,8 +15,9 @@ Criar um app que permita controlar notas de serviços de forma organizada, subst
 O app deve permitir:
 
 - Cadastrar serviços
-- Inativar serviços sem apagar histórico
+- Ativar, inativar e excluir serviços permanentemente quando necessário
 - Criar notas de pedido
+- Informar telefone opcional do cliente
 - Adicionar pacientes à nota
 - Vincular cada paciente a um serviço
 - Definir quantidade e valor
@@ -121,6 +122,26 @@ open -> Aberta
 closed -> Finalizada
 canceled -> Cancelada
 ```
+
+---
+
+## Wireframe como referência visual
+
+O diretório `docs/wireframe-controle-de-pedidos` é referência para UX, componentes, estados de tela, fluxos e hierarquia visual.
+
+A arquitetura técnica oficial continua sendo a base real do projeto:
+
+- Expo Router para navegação.
+- Drizzle ORM + expo-sqlite para persistência local.
+- TanStack Query para estado assíncrono.
+- Zustand para rascunho temporário.
+- NativeWind para styling.
+
+Referências técnicas antigas no wireframe, como React Navigation ou AsyncStorage, não devem ser seguidas no app real.
+
+O wireframe propõe FAB central para criação de nota. No app real, essa decisão fica condicionada à implementação do módulo `orders`. Até lá, a ação “Nova nota” pode existir como botão dentro da Home e da listagem de notas.
+
+No curto prazo, a navegação mantém 4 tabs: Início, Notas, Serviços e Ajustes. A FAB central fica como refinamento visual da fase de `orders`, não como pré-requisito antes do módulo existir.
 
 ---
 
@@ -284,11 +305,14 @@ type Work = {
 
 - Nome é obrigatório.
 - Preço é obrigatório.
-- Preço não pode ser negativo.
+- Preço deve seguir a regra definida para o catálogo.
 - Work nasce com `status: 'active'`.
-- Work não deve ser deletado fisicamente no MVP.
-- Work inativo não aparece em novas orders.
-- Work inativo continua preservado para histórico de orders antigas.
+- Work pode ser inativado via status.
+- Work com `status: 'inactive'` não aparece em novas notas.
+- Work com `status: 'inactive'` continua visível no filtro de inativos.
+- Work pode ser excluído fisicamente para limpeza do catálogo.
+- Exclusão física é destrutiva e deve exigir confirmação.
+- Orders antigas preservam histórico via snapshot em `OrderItem.workName` e `OrderItem.unitPrice`.
 - UI deve apresentar Work como “serviço”.
 
 ---
@@ -304,18 +328,21 @@ type Order = {
   id: string;
   number: number;
   customerName: string;
+  customerPhone: string | null;
   notes: string | null;
   status: 'open' | 'closed' | 'canceled';
   total: number;
   createdAt: string;
   updatedAt: string;
   closedAt: string | null;
+  canceledAt: string | null;
 };
 ```
 
 ### Regras
 
 - Cliente é obrigatório.
+- Telefone do cliente é opcional.
 - Número da order é sequencial.
 - ID interno é UUID.
 - Order nasce com `status: 'open'` quando salva como nota aberta.
@@ -324,6 +351,7 @@ type Order = {
 - Order com `status: 'closed'` não deve ser editada no MVP.
 - Order com `status: 'canceled'` não deve ser excluída fisicamente.
 - Total é calculado pelo service, não pela tela.
+- `canceledAt` deve ser preenchido ao cancelar a nota.
 - UI deve apresentar Order como “nota”.
 
 ---
@@ -359,6 +387,32 @@ type OrderItem = {
 - Valor total é `quantity * unitPrice`.
 - `workName` e `unitPrice` devem ser salvos no item para preservar histórico.
 - Se o work mudar de preço depois, orders antigas não devem mudar.
+- `workId` é obrigatório no momento de criação do item, mas o histórico não deve depender da existência futura do `Work`.
+- A exclusão física de `Work` não pode apagar, bloquear ou alterar `OrderItem`; não usar cascade delete para histórico.
+
+---
+
+## 7.4 CompanySettings
+
+Representa configurações locais da empresa usadas principalmente na emissão de PDF. Quando esses dados forem necessários para o PDF, devem ser persistidos no SQLite via `company-settings.schema.ts`.
+
+### Campos
+
+```ts
+type CompanySettings = {
+  name: string;
+  phone: string | null;
+  nextOrderNumber: number | null;
+  updatedAt: string;
+};
+```
+
+### Regras
+
+- Nome da empresa pode ser usado no cabeçalho do PDF.
+- Telefone da empresa pode ser usado no cabeçalho do PDF.
+- `nextOrderNumber` só deve existir se for necessário permitir configuração manual de numeração.
+- Configurações da empresa não fazem parte de um módulo de clientes.
 
 ---
 
@@ -396,6 +450,7 @@ src/
       orders.schema.ts
       order-items.schema.ts
       app-meta.schema.ts
+      company-settings.schema.ts
 
   modules/
     works/
@@ -431,6 +486,7 @@ src/
       screens/
 
     pdf/
+      screens/
       services/
       templates/
 
@@ -444,6 +500,7 @@ src/
     settings/
       screens/
       services/
+      types/
 
   shared/
     ui/
@@ -545,11 +602,13 @@ Criar uma base visual consistente usando NativeWind e componentes padrão do Rea
 
 - `Button`
 - `Input`
+- `MoneyInput`
 - `TextArea`
 - `Card`
 - `Badge`
 - `MoneyText`
 - `Toggle`
+- `FooterActions`
 - `ScreenContainer`
 - `ListScreenContainer`
 - `EmptyState`
@@ -559,6 +618,12 @@ Criar uma base visual consistente usando NativeWind e componentes padrão do Rea
 - `FilterChips`
 - `LoadingState`
 - `ErrorState`
+- `QuantityStepper`
+- `Toast`
+- `DashboardMetricCard`
+- `OrderItemRow`
+- `OrderTotalCard`
+- `SheetActionItem`
 
 ### Regras visuais
 
@@ -569,6 +634,8 @@ Criar uma base visual consistente usando NativeWind e componentes padrão do Rea
 - Total monetário: `text-blue-600 font-bold`.
 - Status com badges semânticos.
 - Componentes compartilhados devem aceitar composição via props e `className` quando fizer sentido.
+- Campos monetários devem usar `MoneyInput` ou formatação BRL consistente.
+- O campo de preço do serviço deve usar `MoneyInput`; não estender `Input` genérico com prefixo/sufixo sem necessidade concreta.
 
 ### Regra importante de layout
 
@@ -578,6 +645,7 @@ Usar:
 
 - `ScreenContainer` para telas simples/formulários.
 - `ListScreenContainer` para telas com listas.
+- `FooterActions` para telas com ações fixas de rodapé.
 
 ### Critérios de aceite
 
@@ -594,7 +662,7 @@ Usar:
 
 ### Status
 
-Funcionalidade majoritariamente implementada, com ajuste obrigatório na Fase 2.1.
+Funcionalidade majoritariamente implementada, com ajustes finais de UX e documentação na Fase 2.1.
 
 ### Objetivo
 
@@ -607,6 +675,7 @@ Permitir o gerenciamento dos serviços usados nas notas.
 - Buscar serviço por nome.
 - Editar serviço.
 - Inativar serviço.
+- Excluir serviço fisicamente.
 - Filtrar serviços por status.
 
 ### Camadas implementadas
@@ -629,6 +698,7 @@ Permitir o gerenciamento dos serviços usados nas notas.
 - Usuário cria serviço.
 - Usuário edita serviço.
 - Usuário inativa serviço.
+- Usuário exclui serviço permanentemente após confirmação.
 - Serviço inativo não aparece em listas ativas.
 - Dados persistem no SQLite.
 - Queries são invalidadas após mutation.
@@ -636,30 +706,32 @@ Permitir o gerenciamento dos serviços usados nas notas.
 
 ---
 
-## Fase 2.1 — Alinhamento do módulo de serviços
+## Fase 2.1 — Alinhamento do catálogo de serviços
 
 ### Objetivo
 
-Corrigir divergências entre a regra de negócio planejada e a implementação atual do módulo `works` antes de criar orders dependentes de serviços.
+Formalizar as duas operações disponíveis para serviços: inativação e exclusão física.
 
 ### Entregáveis
 
-- Substituir exclusão física de `works` por inativação.
-- Renomear `deleteWork` para `deactivateWork`.
-- Renomear `use-delete-work-mutation.ts` para `use-deactivate-work-mutation.ts`.
-- Ajustar repository para fazer update de `status` para `'inactive'`.
-- Ajustar textos de UI de “Excluir serviço” para “Inativar serviço”.
-- Ajustar `ConfirmDialog` da tela de edição.
+- Manter o switch de status para ativar/inativar serviço.
+- Manter exclusão física como ação destrutiva.
 - Garantir que serviços inativos não apareçam em novas orders.
-- Preservar serviços inativos para histórico futuro.
+- Garantir que serviços inativos apareçam no filtro de inativos.
+- Garantir que exclusão física exija confirmação.
+- Garantir que exclusão física invalide `worksQueryKeys.all`.
+- Ajustar textos para deixar claro que exclusão é permanente.
+- Garantir que a preservação histórica dependa de snapshots em `OrderItem`.
 
 ### Critérios de aceite
 
-- Work não é removido fisicamente do SQLite.
-- Work inativo continua visível quando filtrado por inativos.
-- Work inativo não aparece como opção em novas notas.
-- Query keys de `works` são invalidadas após inativação.
-- Textos da UI refletem “inativar”, não “excluir”.
+- Usuário consegue ativar/inativar serviço.
+- Usuário consegue excluir serviço permanentemente.
+- Exclusão exige confirmação.
+- Serviço inativo não aparece na criação de nota.
+- Serviço excluído sai do catálogo.
+- Histórico de notas permanece correto por snapshot em `OrderItem`.
+- Query keys de `works` são invalidadas após inativação ou exclusão.
 - `bun run typecheck` passa.
 - `bun run lint` passa.
 
@@ -688,12 +760,14 @@ Campos:
 - `id`
 - `number`
 - `customer_name`
+- `customer_phone`
 - `notes`
 - `status`
 - `total`
 - `created_at`
 - `updated_at`
 - `closed_at`
+- `canceled_at`
 
 ### Tabela `order_items`
 
@@ -715,8 +789,11 @@ Campos:
 
 - Migrations rodam sem erro.
 - Tabelas são criadas corretamente.
+- `orders.customer_phone` aceita valor nulo.
+- `orders.canceled_at` aceita valor nulo e é preenchido ao cancelar.
 - Relacionamento entre order e items funciona.
-- Relacionamento entre item e work funciona quando necessário.
+- `order_items.work_id` guarda a referência original do serviço, mas não deve impedir exclusão física de `works`.
+- Não usar relacionamento com cascade delete entre `works` e `order_items`.
 - Datas são salvas em ISO string.
 - Status aceita apenas `open`, `closed` e `canceled`.
 - `workName` e `unitPrice` preservam snapshot histórico.
@@ -734,7 +811,7 @@ Permitir montar uma nota antes de salvar no banco.
 
 ### Motivo
 
-O usuário pode preencher cliente, adicionar vários pacientes, escolher serviços, alterar quantidades e revisar o total antes de salvar ou finalizar.
+O usuário pode preencher cliente, telefone opcional, observação, adicionar vários pacientes, escolher serviços, alterar quantidades e revisar o total antes de salvar ou finalizar.
 
 ### Arquivo esperado
 
@@ -758,10 +835,12 @@ type OrderDraftItem = {
 
 type OrderDraftStore = {
   customerName: string;
+  customerPhone: string;
   notes: string;
   items: OrderDraftItem[];
 
   setCustomerName: (value: string) => void;
+  setCustomerPhone: (value: string) => void;
   setNotes: (value: string) => void;
   addItem: (item: Omit<OrderDraftItem, 'id' | 'totalPrice'>) => void;
   updateItem: (id: string, data: Partial<OrderDraftItem>) => void;
@@ -786,6 +865,7 @@ type OrderDraftStore = {
 - Usuário remove item do draft.
 - Usuário altera quantidade.
 - Total recalcula corretamente.
+- Draft mantém cliente, telefone opcional, observação e items entre telas.
 - Draft permanece entre telas do fluxo.
 - Draft é limpo após salvar/finalizar.
 
@@ -805,6 +885,7 @@ Criar validações para dados da nota e itens.
 ### Validações da order
 
 - `customerName` obrigatório.
+- `customerPhone` opcional.
 - `notes` opcional.
 
 ### Validações do item
@@ -824,6 +905,7 @@ Criar validações para dados da nota e itens.
 ### Critérios de aceite
 
 - Formulário da nota valida cliente.
+- Formulário da nota aceita telefone opcional.
 - Formulário de item valida paciente.
 - Formulário de item exige serviço.
 - Quantidade inválida mostra erro.
@@ -857,11 +939,17 @@ src/app/orders/add-item.tsx
 - `OrderSummary`
 - `AddOrderItemButton`
 - `WorkSelectorList`
+- `QuantityStepper`
+- `FooterActions`
 
 ### Fluxo
 
 ```txt
 Usuário informa cliente
+↓
+Usuário informa telefone opcional
+↓
+Usuário informa observação opcional
 ↓
 Usuário toca em adicionar paciente/serviço
 ↓
@@ -869,7 +957,9 @@ Usuário informa paciente
 ↓
 Usuário seleciona serviço ativo
 ↓
-Usuário informa quantidade
+Usuário define quantidade
+↓
+Sistema calcula subtotal
 ↓
 Item entra no draft
 ↓
@@ -881,7 +971,14 @@ Usuário aciona salvar ou finalizar quando a persistência estiver disponível
 ### Critérios de aceite
 
 - Tela permite informar cliente.
+- Tela permite informar telefone opcional.
+- Tela permite informar observação opcional.
 - Tela permite adicionar paciente/serviço.
+- Tela de adicionar item contém campo “Nome do paciente \*”.
+- Tela de adicionar item permite buscar e selecionar apenas serviço ativo.
+- Tela de adicionar item permite definir quantidade com stepper ou input.
+- Tela de adicionar item mostra subtotal antes de adicionar à nota.
+- Tela de adicionar item possui botão “Adicionar à nota”.
 - Lista mostra itens adicionados.
 - Total aparece em destaque.
 - Botão salvar fica preparado para criar order `open`, mas a persistência efetiva fica na Fase 7.
@@ -926,10 +1023,12 @@ Métodos:
 ### Regras de negócio
 
 - Order precisa ter cliente.
+- Telefone do cliente é opcional e deve ser persistido como `null` quando vazio.
 - Order precisa ter pelo menos um item.
 - Número da order deve ser sequencial.
 - Total deve ser calculado no service.
 - Status deve ser definido pelo service.
+- Cancelamento deve preencher `canceledAt`.
 - Items devem ser salvos junto com a order.
 - Falha ao salvar item deve impedir order incompleta.
 - Repository não deve conter regra de apresentação.
@@ -939,6 +1038,7 @@ Métodos:
 
 - Order `open` é salva no banco.
 - Order `closed` é salva no banco.
+- Telefone opcional do cliente é salvo quando informado.
 - Items são salvos corretamente.
 - Total salvo bate com soma dos items.
 - Número da order incrementa corretamente.
@@ -1031,6 +1131,7 @@ export default OrderListScreen;
 - Listar notas.
 - Buscar por cliente.
 - Buscar por número.
+- Exibir telefone do cliente quando existir.
 - Filtrar por status.
 - Abrir detalhe da nota.
 - Criar nova nota.
@@ -1072,7 +1173,7 @@ Usar `ListScreenContainer` com:
 - Busca por número funciona.
 - Filtro de status funciona.
 - Estado vazio aparece corretamente.
-- Notas exibem número, cliente, data, status e total.
+- Notas exibem número, cliente, telefone quando existir, data, status e total.
 - `FlatList` não fica dentro de `ScrollView`.
 
 ---
@@ -1098,9 +1199,11 @@ src/app/orders/[id].tsx
 - Número da nota.
 - Status.
 - Cliente.
+- Telefone do cliente quando existir.
 - Observação.
 - Data de criação.
 - Data de finalização quando existir.
+- Data de cancelamento quando existir.
 - Lista de pacientes/serviços.
 - Quantidade.
 - Valor unitário.
@@ -1165,6 +1268,7 @@ src/app/orders/[id]/edit.tsx
 ### Funcionalidades
 
 - Editar cliente.
+- Editar telefone opcional do cliente.
 - Editar observação.
 - Adicionar paciente/serviço.
 - Remover item.
@@ -1202,7 +1306,7 @@ src/modules/home/screens/HomeScreen.tsx
 
 `src/app/(tabs)/index.tsx` deve ser rota fina.
 
-### Dados exibidos
+### Dados exibidos no MVP
 
 - Notas abertas.
 - Notas finalizadas hoje.
@@ -1210,6 +1314,13 @@ src/modules/home/screens/HomeScreen.tsx
 - Notas recentes.
 - Atalho para nova nota.
 - Atalho para serviços.
+
+### Atalhos e dados futuros
+
+- Atalho para Clientes.
+- Atalho para Relatórios.
+- Comparativo com ontem.
+- Top serviços.
 
 ### Uso de dayjs
 
@@ -1224,6 +1335,7 @@ src/modules/home/screens/HomeScreen.tsx
 - Total do dia considera apenas orders `closed`.
 - Notas recentes aparecem corretamente.
 - Atalhos navegam corretamente.
+- Atalhos de clientes e relatórios não fazem parte do MVP.
 - Rota da home não contém regra de negócio.
 
 ---
@@ -1238,8 +1350,21 @@ Gerar um PDF profissional da nota.
 
 ```txt
 src/modules/pdf/
+  screens/OrderPdfPreviewScreen.tsx
   templates/order-pdf.template.ts
   services/order-pdf.service.ts
+```
+
+### Fluxo
+
+```txt
+Detalhe da nota
+↓
+Gerar PDF
+↓
+Prévia do PDF
+↓
+Compartilhar ou baixar
 ```
 
 ### Conteúdo do PDF
@@ -1247,6 +1372,7 @@ src/modules/pdf/
 - Nome do app/negócio.
 - Número da nota.
 - Cliente.
+- Telefone do cliente quando existir.
 - Data.
 - Status.
 - Observação.
@@ -1259,7 +1385,11 @@ src/modules/pdf/
 ### Regras
 
 - PDF deve usar os dados salvos da order.
+- Prévia deve usar dados persistidos da order.
 - PDF deve preservar valores históricos dos items.
+- PDF deve incluir `customerPhone` quando existir.
+- PDF deve incluir dados da empresa quando configurados.
+- Prévia de PDF é alvo de UX; se a stack nativa não permitir preview confiável no MVP, geração e compartilhamento do PDF não devem ser bloqueados.
 - PDF deve ter layout limpo.
 - PDF deve ser legível no celular.
 - O arquivo e service usam `Order`, mas o conteúdo apresentado usa “nota”.
@@ -1270,6 +1400,7 @@ src/modules/pdf/
 - PDF contém todos os items.
 - Total está correto.
 - Datas estão formatadas.
+- Prévia do PDF renderiza os dados persistidos, se for viável tecnicamente no app.
 - PDF pode ser compartilhado.
 
 ---
@@ -1291,6 +1422,8 @@ src/modules/sharing/services/order-sharing.service.ts
 - Compartilhar PDF via `expo-sharing`.
 - Abrir WhatsApp com mensagem pronta via `expo-linking`.
 - Compartilhar resumo textual se necessário.
+- Permitir compartilhar a partir do detalhe ou da prévia do PDF.
+- Exibir erro se compartilhamento não estiver disponível no dispositivo.
 
 ### Mensagem sugerida
 
@@ -1307,6 +1440,8 @@ Total: R$ 740,00
 - PDF pode ser compartilhado.
 - WhatsApp abre com texto pronto.
 - Se não houver telefone, compartilhamento genérico funciona.
+- Compartilhamento funciona a partir do detalhe da nota e da prévia do PDF.
+- Usuário recebe feedback quando compartilhamento não estiver disponível.
 - Erros são tratados com feedback visual.
 - Quando a biblioteca de toast for escolhida, os feedbacks devem ser padronizados.
 
@@ -1345,17 +1480,24 @@ export default SettingsScreen;
 
 - Exibir versão do app.
 - Exibir informações do app.
-- Atalho para backup futuramente.
+- Exibir dados básicos da empresa se necessários para PDF.
+- Configurar nome da empresa.
+- Configurar telefone da empresa.
 
 ### Funcionalidades futuras
 
 - Verificar atualização OTA com `expo-updates`.
 - Aplicar atualização OTA.
+- Configurar próximo número da nota, se necessário.
+- Configurar modelo de PDF.
+- Limpar dados locais.
+- Backup e restauração avançados.
 
 ### Critérios de aceite
 
 - Versão aparece corretamente.
 - Informações básicas aparecem corretamente.
+- Dados básicos da empresa são usados no PDF quando configurados.
 - Rota de ajustes não contém formulário de exemplo ou lógica temporária.
 - Fluxo OTA só é implementado quando `expo-updates` for adicionado.
 
@@ -1381,6 +1523,7 @@ Evitar perda de dados no uso real.
 - Orders.
 - Order items.
 - App meta.
+- Company settings, quando implementado.
 - Versão do app.
 - Versão do schema.
 - Data de exportação.
@@ -1400,6 +1543,33 @@ Evitar perda de dados no uso real.
 - Usuário restaura backup válido.
 - Backup inválido não quebra o app.
 - Estratégia de duplicidade está documentada antes de importar dados.
+
+---
+
+# Pós-MVP — Clientes
+
+Clientes são derivados das orders salvas. Não haverá cadastro independente de clientes no MVP.
+
+Funcionalidades futuras:
+
+- Listar clientes derivados das notas.
+- Ver total gasto por cliente.
+- Ver histórico de notas por cliente.
+- Criar nova nota com cliente pré-preenchido.
+
+---
+
+# Pós-MVP — Relatórios
+
+Relatórios não fazem parte do MVP inicial.
+
+Funcionalidades futuras:
+
+- Filtrar por período.
+- Exibir faturamento.
+- Exibir totais por status.
+- Exibir top serviços.
+- Exportar relatório em PDF.
 
 ---
 
@@ -1429,7 +1599,8 @@ Fases:
 Resultado:
 
 - CRUD de serviços completo.
-- Inativação alinhada ao histórico de orders.
+- Inativação e exclusão física de serviços documentadas com responsabilidades distintas.
+- Histórico de orders preservado por snapshots em `OrderItem`.
 
 ## Marco 3 — Orders base
 
@@ -1500,18 +1671,23 @@ Resultado:
 O MVP estará pronto quando o app permitir:
 
 - Cadastrar serviço.
-- Listar serviço.
-- Inativar serviço.
+- Editar serviço.
+- Ativar/inativar serviço.
+- Excluir serviço permanentemente.
+- Listar serviços.
 - Criar nota.
 - Informar cliente da nota.
+- Informar telefone opcional do cliente.
 - Adicionar paciente vinculado a serviço.
 - Definir quantidade.
 - Calcular total.
 - Salvar nota aberta.
 - Finalizar nota.
+- Cancelar nota.
 - Listar notas.
 - Ver detalhe da nota.
 - Gerar PDF.
+- Pré-visualizar PDF, se viável.
 - Compartilhar PDF.
 
 Observação técnica:
@@ -1520,14 +1696,16 @@ Observação técnica:
 
 Fora do MVP inicial:
 
+- Clientes como módulo próprio.
+- Relatórios.
+- Backup automático.
+- Tema escuro.
 - Login.
 - Sincronização em nuvem.
 - Multiusuário.
-- Relatórios avançados.
-- Tema escuro.
 - Edição de nota finalizada.
-- Backup automático.
 - OTA com `expo-updates`.
+- Modelos avançados de PDF.
 
 ---
 
@@ -1537,11 +1715,17 @@ Uma funcionalidade só deve ser considerada pronta quando:
 
 - Tela implementada.
 - Validação implementada.
-- Loading tratado.
-- Erro tratado.
-- Estado vazio tratado.
+- Toda lista tem estados loading, error, empty e no-results.
 - Feedback visual implementado.
 - Ação destrutiva exige confirmação.
+- Todo formulário tem estado submitting.
+- Todo fluxo crítico dá feedback visual.
+- Toda tela respeita Safe Area.
+- Toda lista usa `ListScreenContainer`/`FlatList`.
+- Formulários longos usam `ScreenContainer`.
+- Ações de rodapé seguem o padrão `FooterActions` quando houver botões fixos.
+- Campos monetários usam `MoneyInput` ou formatação BRL consistente.
+- Targets interativos devem ter tamanho confortável para toque.
 - Dados persistem quando necessário.
 - Queries são invalidadas corretamente.
 - Query keys são serializáveis e incluem variáveis que alteram resultado.
@@ -1565,7 +1749,7 @@ Não há script de testes configurado no `package.json`. Não considerar testes 
 
 Checklist manual mínimo para fluxos críticos:
 
-- Criar, editar e inativar serviço.
+- Criar, editar, ativar/inativar e excluir serviço.
 - Criar nota aberta.
 - Finalizar nota.
 - Cancelar nota.
@@ -1578,19 +1762,14 @@ Checklist manual mínimo para fluxos críticos:
 
 # 14. Próximo passo imediato
 
-Como a funcionalidade **Serviços** já existe, o próximo passo é executar:
+Como `works` já possui criação, edição, status ativo/inativo e exclusão física, o próximo passo é alinhar o PRD e pequenos detalhes de UX do módulo antes de iniciar orders.
 
-## Fase 2.1 — Alinhamento do módulo de serviços
+## Ajustes finais em works
 
-Ordem recomendada:
-
-1. Trocar exclusão física por inativação no repository.
-2. Renomear `deleteWork` para `deactivateWork` no repository e service.
-3. Renomear mutation para `use-deactivate-work-mutation.ts`.
-4. Atualizar textos de UI de “Excluir” para “Inativar”.
-5. Garantir invalidação de `worksQueryKeys.all`.
-6. Rodar `bun run typecheck`.
-7. Rodar `bun run lint`.
+1. Garantir que o texto de exclusão deixe claro que a ação é permanente.
+2. Garantir que o switch ativo/inativo esteja documentado como mecanismo oficial de inativação.
+3. Garantir que serviços inativos não serão usados em novas orders.
+4. Garantir que a preservação histórica dependerá de snapshots em `OrderItem`.
 
 Depois disso, iniciar:
 

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wireframes — Controle de Pedidos</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: { colors: { brand: {50:'#EFF6FF',100:'#DBEAFE',500:'#1D4ED8',600:'#1E40AF',700:'#1E3A8A'} } } } }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .phone { width: 310px; min-height: 640px; }
+  .phone-screen { min-height: 604px; }
+  .wire { background: repeating-linear-gradient(135deg,#f8fafc 0,#f8fafc 10px,#f1f5f9 10px,#f1f5f9 20px); }
+  .flow-line::after { content:""; position:absolute; left:50%; top:100%; width:2px; height:26px; background:#cbd5e1; }
+  @media print { .no-print { display:none!important; } body { background:white!important; } .phone { break-inside: avoid; } }
+</style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+  <aside class="no-print fixed left-4 top-4 z-50 hidden max-h-[90vh] w-64 overflow-auto rounded-2xl border border-slate-200 bg-white/95 p-4 text-sm shadow-sm backdrop-blur xl:block">
+    <p class="mb-3 text-xs font-bold uppercase tracking-wide text-blue-600">Mapa</p>
+    <nav class="space-y-1 text-slate-600">
+      <a class="block rounded-lg px-3 py-2 hover:bg-slate-100" href="#overview">Visão geral</a>
+      <a class="block rounded-lg px-3 py-2 hover:bg-slate-100" href="#fluxos">Fluxos</a>
+      <a class="block rounded-lg px-3 py-2 hover:bg-slate-100" href="#telas">Wireframes das telas</a>
+      <a class="block rounded-lg px-3 py-2 hover:bg-slate-100" href="#estados">Estados e situações</a>
+      <a class="block rounded-lg px-3 py-2 hover:bg-slate-100" href="#componentes">Componentes</a>
+      <a class="block rounded-lg px-3 py-2 hover:bg-slate-100" href="#nativewind">Classes NativeWind</a>
+    </nav>
+  </aside>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 xl:pl-72">
+    <header id="overview" class="mb-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+      <p class="mb-2 text-sm font-semibold uppercase tracking-wide text-blue-600">Wireframes completos</p>
+      <h1 class="text-4xl font-bold tracking-tight text-slate-950">Controle de Pedidos</h1>
+      <p class="mt-3 max-w-3xl text-base leading-7 text-slate-600">Baseado no design system enviado: app mobile minimalista com fundo slate, cards brancos, botões azuis, badges semânticas, foco em rapidez para criar notas, gerenciar serviços, finalizar pedido, gerar PDF e compartilhar.</p>
+      <div class="mt-6 grid gap-4 md:grid-cols-4">
+        <div class="rounded-2xl bg-slate-50 p-4"><p class="text-xs text-slate-500">Plataforma</p><p class="mt-1 font-bold">React Native</p></div>
+        <div class="rounded-2xl bg-slate-50 p-4"><p class="text-xs text-slate-500">Estilo</p><p class="mt-1 font-bold">NativeWind</p></div>
+        <div class="rounded-2xl bg-slate-50 p-4"><p class="text-xs text-slate-500">Navegação</p><p class="mt-1 font-bold">Tabs + Stack</p></div>
+        <div class="rounded-2xl bg-slate-50 p-4"><p class="text-xs text-slate-500">Tom visual</p><p class="mt-1 font-bold">Claro e operacional</p></div>
+      </div>
+    </header>
+
+    <section id="fluxos" class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">1. Fluxos principais</h2>
+      <div class="grid gap-4 md:grid-cols-3">
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-bold">Criar pedido / nota</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Início → Nova nota → Cliente → Adicionar itens → Revisar total → Salvar aberta ou Finalizar → Gerar PDF/Compartilhar.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-bold">Gerenciar serviços</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Serviços → Buscar/filtrar → Novo serviço → Editar preço/status → Confirmar inativação quando destrutivo.</p>
+        </article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <h3 class="font-bold">Acompanhar operação</h3>
+          <p class="mt-2 text-sm leading-6 text-slate-600">Dashboard → Indicadores do dia → Notas recentes → Filtros por status/período → Detalhe da nota.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="telas" class="mb-12">
+      <div class="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+        <div>
+          <h2 class="text-2xl font-bold text-slate-950">2. Wireframes das telas</h2>
+          <p class="mt-1 text-sm text-slate-500">Cada tela está representada em formato mobile com componentes reais do design system.</p>
+        </div>
+        <span class="rounded-full bg-blue-100 px-4 py-2 text-xs font-bold text-blue-700">12 telas principais</span>
+      </div>
+      <div class="grid justify-items-center gap-8 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+
+        <!-- Phone component helper copied manually -->
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-start justify-between"><div><p class="text-sm text-slate-500">Olá, Pe</p><h3 class="mt-1 text-2xl font-bold">Início</h3></div><div class="h-10 w-10 rounded-full bg-blue-100"></div></div>
+            <div class="grid grid-cols-2 gap-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="text-xs text-slate-500">Abertas</p><p class="mt-2 text-2xl font-bold">12</p></div><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="text-xs text-slate-500">Finalizadas</p><p class="mt-2 text-2xl font-bold text-green-600">8</p></div></div>
+            <div class="mt-3 rounded-2xl bg-blue-600 p-4 text-white"><p class="text-xs opacity-80">Total hoje</p><p class="mt-1 text-3xl font-bold">R$ 840,00</p></div>
+            <button class="mt-4 h-12 w-full rounded-xl bg-blue-600 text-sm font-semibold text-white">+ Nova nota</button>
+            <div class="mt-5 flex items-center justify-between"><p class="font-bold">Recentes</p><a class="text-sm font-semibold text-blue-600">Ver todas</a></div>
+            <div class="mt-3 space-y-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex justify-between"><div><p class="text-xs font-bold uppercase text-slate-400">#0012</p><p class="font-semibold">João Silva</p></div><span class="h-6 rounded-full bg-amber-100 px-3 text-xs font-bold leading-6 text-amber-700">Aberta</span></div><p class="mt-3 text-right text-lg font-bold text-blue-600">R$ 360,00</p></div><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex justify-between"><div><p class="text-xs font-bold uppercase text-slate-400">#0011</p><p class="font-semibold">Maria Ana</p></div><span class="h-6 rounded-full bg-green-100 px-3 text-xs font-bold leading-6 text-green-700">Finalizada</span></div></div></div>
+          </div><p class="mt-3 text-center text-sm font-bold">Dashboard</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-4 flex items-center justify-between"><div><h3 class="text-2xl font-bold">Notas</h3><p class="text-sm text-slate-500">Controle pedidos e recibos</p></div><button class="h-10 w-10 rounded-xl bg-blue-600 text-white">+</button></div>
+            <div class="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm leading-[48px] text-slate-400">Buscar por cliente ou número</div>
+            <div class="mt-3 flex gap-2"><span class="rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white">Todas</span><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-600">Abertas</span><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-600">Finalizadas</span></div>
+            <div class="mt-4 space-y-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase text-slate-400">Nota #0012</p><p class="mt-1 font-semibold">João da Silva</p><p class="text-sm text-slate-500">4 itens · Hoje</p></div><span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">Aberta</span></div><div class="mt-3 border-t border-slate-100 pt-3 text-right text-xl font-bold text-blue-600">R$ 360,00</div></div><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase text-slate-400">Nota #0011</p><p class="mt-1 font-semibold">Maria Ana</p><p class="text-sm text-slate-500">2 itens · Ontem</p></div><span class="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">Finalizada</span></div></div><div class="rounded-2xl bg-white p-4 shadow-sm opacity-70"><div class="flex items-start justify-between"><div><p class="text-xs font-bold uppercase text-slate-400">Nota #0010</p><p class="mt-1 font-semibold">Carlos Lima</p></div><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">Cancelada</span></div></div></div>
+          </div><p class="mt-3 text-center text-sm font-bold">Lista de notas</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-center gap-3"><button class="h-10 w-10 rounded-xl bg-white shadow-sm">←</button><div><h3 class="text-2xl font-bold">Nova nota</h3><p class="text-sm text-slate-500">Dados do cliente</p></div></div>
+            <label class="block"><span class="mb-2 block text-sm font-semibold">Cliente</span><div class="h-12 rounded-xl border border-slate-200 bg-white px-4 leading-[48px] text-slate-400">Nome completo</div></label>
+            <label class="mt-4 block"><span class="mb-2 block text-sm font-semibold">Telefone</span><div class="h-12 rounded-xl border border-slate-200 bg-white px-4 leading-[48px] text-slate-400">(00) 00000-0000</div></label>
+            <label class="mt-4 block"><span class="mb-2 block text-sm font-semibold">Observação</span><div class="h-24 rounded-xl border border-slate-200 bg-white p-4 text-slate-400">Opcional</div></label>
+            <div class="mt-5 rounded-2xl bg-white p-4 shadow-sm"><div class="mb-3 flex items-center justify-between"><p class="font-bold">Itens</p><button class="text-sm font-bold text-blue-600">Adicionar</button></div><div class="rounded-xl bg-slate-50 p-3"><p class="font-semibold">Aplicação porcelana</p><p class="text-sm text-slate-500">2 × R$ 90,00</p></div></div>
+            <div class="mt-4 rounded-2xl bg-blue-600 p-4 text-white"><div class="flex justify-between"><p>Total</p><p class="text-2xl font-bold">R$ 180,00</p></div></div>
+            <div class="mt-4 grid grid-cols-2 gap-3"><button class="h-12 rounded-xl border border-slate-200 bg-white font-semibold">Salvar</button><button class="h-12 rounded-xl bg-blue-600 font-semibold text-white">Finalizar</button></div>
+          </div><p class="mt-3 text-center text-sm font-bold">Criar/editar nota</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-center gap-3"><button class="h-10 w-10 rounded-xl bg-white shadow-sm">←</button><div><h3 class="text-2xl font-bold">Adicionar item</h3><p class="text-sm text-slate-500">Selecione um serviço</p></div></div>
+            <div class="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm leading-[48px] text-slate-400">Buscar serviço</div>
+            <div class="mt-4 space-y-3"><div class="rounded-2xl border-2 border-blue-600 bg-white p-4 shadow-sm"><div class="flex justify-between"><div><p class="font-bold">Copping</p><p class="text-sm text-slate-500">Acabamento</p></div><p class="font-bold text-blue-600">R$ 90</p></div></div><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex justify-between"><p class="font-bold">Porcelana</p><p class="font-bold text-blue-600">R$ 200</p></div></div><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex justify-between"><p class="font-bold">Ajuste</p><p class="font-bold text-blue-600">R$ 50</p></div></div></div>
+            <div class="mt-5 rounded-2xl bg-white p-4 shadow-sm"><p class="mb-2 text-sm font-semibold">Quantidade</p><div class="flex items-center justify-between"><button class="h-11 w-11 rounded-xl bg-slate-100 text-xl">−</button><p class="text-2xl font-bold">2</p><button class="h-11 w-11 rounded-xl bg-blue-600 text-xl text-white">+</button></div></div>
+            <button class="mt-4 h-12 w-full rounded-xl bg-blue-600 font-semibold text-white">Adicionar à nota</button>
+          </div><p class="mt-3 text-center text-sm font-bold">Selecionar serviço</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-center gap-3"><button class="h-10 w-10 rounded-xl bg-white shadow-sm">←</button><div><p class="text-xs font-bold uppercase text-slate-400">Nota #0012</p><h3 class="text-2xl font-bold">João Silva</h3></div></div>
+            <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex justify-between"><span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">Aberta</span><p class="text-sm text-slate-500">15/05/2026</p></div><div class="mt-4 grid grid-cols-2 gap-3 text-sm"><div><p class="text-slate-500">Telefone</p><p class="font-semibold">(11) 99999-0000</p></div><div><p class="text-slate-500">Itens</p><p class="font-semibold">4</p></div></div></div>
+            <div class="mt-4 rounded-2xl bg-white p-4 shadow-sm"><p class="mb-3 font-bold">Itens</p><div class="space-y-3"><div class="flex justify-between border-b border-slate-100 pb-3"><div><p class="font-semibold">Copping</p><p class="text-sm text-slate-500">2 × R$ 90</p></div><p class="font-bold">R$ 180</p></div><div class="flex justify-between"><div><p class="font-semibold">Ajuste</p><p class="text-sm text-slate-500">1 × R$ 50</p></div><p class="font-bold">R$ 50</p></div></div></div>
+            <div class="mt-4 rounded-2xl bg-blue-600 p-4 text-white"><p class="text-sm opacity-80">Total</p><p class="text-3xl font-bold">R$ 230,00</p></div>
+            <div class="mt-4 grid grid-cols-2 gap-3"><button class="h-12 rounded-xl border border-slate-200 bg-white font-semibold">PDF</button><button class="h-12 rounded-xl bg-blue-600 font-semibold text-white">Finalizar</button></div><button class="mt-3 h-12 w-full rounded-xl text-sm font-semibold text-red-600">Cancelar nota</button>
+          </div><p class="mt-3 text-center text-sm font-bold">Detalhe da nota</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-4 flex items-center justify-between"><div><h3 class="text-2xl font-bold">Serviços</h3><p class="text-sm text-slate-500">Catálogo de preços</p></div><button class="h-10 w-10 rounded-xl bg-blue-600 text-white">+</button></div>
+            <div class="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm leading-[48px] text-slate-400">Buscar serviço</div>
+            <div class="mt-3 flex gap-2"><span class="rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white">Ativos</span><span class="rounded-full bg-white px-3 py-1 text-xs font-bold text-slate-600">Inativos</span></div>
+            <div class="mt-4 space-y-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex items-start justify-between"><div><p class="font-bold">Aplicação de porcelana</p><p class="text-sm text-slate-500">Acabamento premium</p></div><span class="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">Ativo</span></div><div class="mt-3 flex justify-between border-t border-slate-100 pt-3"><p class="text-xl font-bold text-blue-600">R$ 90,00</p><p class="text-sm font-bold text-blue-600">Editar</p></div></div><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex justify-between"><p class="font-bold">Copping</p><p class="font-bold text-blue-600">R$ 70</p></div></div><div class="rounded-2xl bg-white p-4 shadow-sm opacity-60"><div class="flex justify-between"><p class="font-bold">Serviço antigo</p><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">Inativo</span></div></div></div>
+          </div><p class="mt-3 text-center text-sm font-bold">Lista de serviços</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-center gap-3"><button class="h-10 w-10 rounded-xl bg-white shadow-sm">←</button><div><h3 class="text-2xl font-bold">Novo serviço</h3><p class="text-sm text-slate-500">Cadastro de item</p></div></div>
+            <label class="block"><span class="mb-2 block text-sm font-semibold">Nome</span><div class="h-12 rounded-xl border border-slate-200 bg-white px-4 leading-[48px] text-slate-400">Ex: Copping</div></label>
+            <label class="mt-4 block"><span class="mb-2 block text-sm font-semibold">Descrição</span><div class="h-24 rounded-xl border border-slate-200 bg-white p-4 text-slate-400">Opcional</div></label>
+            <label class="mt-4 block"><span class="mb-2 block text-sm font-semibold">Preço</span><div class="h-12 rounded-xl border border-slate-200 bg-white px-4 leading-[48px] text-slate-400">R$ 0,00</div></label>
+            <div class="mt-4 rounded-2xl bg-white p-4 shadow-sm"><div class="flex items-center justify-between"><div><p class="font-semibold">Status ativo</p><p class="text-sm text-slate-500">Disponível para novas notas</p></div><div class="h-7 w-12 rounded-full bg-blue-600 p-1"><div class="ml-auto h-5 w-5 rounded-full bg-white"></div></div></div></div>
+            <button class="mt-6 h-12 w-full rounded-xl bg-blue-600 font-semibold text-white">Salvar serviço</button><button class="mt-3 h-12 w-full rounded-xl border border-slate-200 bg-white font-semibold">Cancelar</button>
+          </div><p class="mt-3 text-center text-sm font-bold">Criar/editar serviço</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-4 flex items-center justify-between"><div><h3 class="text-2xl font-bold">Clientes</h3><p class="text-sm text-slate-500">Histórico por cliente</p></div><button class="h-10 w-10 rounded-xl bg-blue-600 text-white">+</button></div>
+            <div class="h-12 rounded-xl border border-slate-200 bg-white px-4 text-sm leading-[48px] text-slate-400">Buscar cliente</div>
+            <div class="mt-4 space-y-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex items-center justify-between"><div><p class="font-bold">João da Silva</p><p class="text-sm text-slate-500">5 notas · Última hoje</p></div><p class="font-bold text-blue-600">R$ 920</p></div></div><div class="rounded-2xl bg-white p-4 shadow-sm"><div class="flex items-center justify-between"><div><p class="font-bold">Maria Ana</p><p class="text-sm text-slate-500">2 notas</p></div><p class="font-bold text-blue-600">R$ 340</p></div></div></div>
+            <div class="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-4"><p class="font-bold text-blue-700">Atalho</p><p class="mt-1 text-sm text-blue-700">Tocar no cliente abre histórico, telefones e notas.</p></div>
+          </div><p class="mt-3 text-center text-sm font-bold">Clientes</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-center gap-3"><button class="h-10 w-10 rounded-xl bg-white shadow-sm">←</button><div><h3 class="text-2xl font-bold">Relatórios</h3><p class="text-sm text-slate-500">Resumo financeiro</p></div></div>
+            <div class="grid grid-cols-2 gap-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="text-xs text-slate-500">Mês</p><p class="mt-2 text-xl font-bold text-blue-600">R$ 8.420</p></div><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="text-xs text-slate-500">Notas</p><p class="mt-2 text-xl font-bold">64</p></div></div>
+            <div class="mt-4 rounded-2xl bg-white p-4 shadow-sm"><p class="mb-3 font-bold">Por status</p><div class="space-y-3"><div><div class="flex justify-between text-sm"><span>Finalizadas</span><b>72%</b></div><div class="mt-1 h-2 rounded-full bg-slate-100"><div class="h-2 w-[72%] rounded-full bg-green-600"></div></div></div><div><div class="flex justify-between text-sm"><span>Abertas</span><b>20%</b></div><div class="mt-1 h-2 rounded-full bg-slate-100"><div class="h-2 w-[20%] rounded-full bg-amber-500"></div></div></div></div></div>
+            <div class="mt-4 rounded-2xl bg-white p-4 shadow-sm"><p class="mb-3 font-bold">Serviços mais vendidos</p><div class="space-y-2 text-sm"><div class="flex justify-between"><span>Porcelana</span><b>22</b></div><div class="flex justify-between"><span>Copping</span><b>18</b></div><div class="flex justify-between"><span>Ajuste</span><b>9</b></div></div></div>
+            <button class="mt-4 h-12 w-full rounded-xl border border-slate-200 bg-white font-semibold">Exportar PDF</button>
+          </div><p class="mt-3 text-center text-sm font-bold">Relatórios</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-5 flex items-center gap-3"><button class="h-10 w-10 rounded-xl bg-white shadow-sm">←</button><div><h3 class="text-2xl font-bold">Prévia PDF</h3><p class="text-sm text-slate-500">Nota #0012</p></div></div>
+            <div class="rounded-2xl bg-white p-4 shadow-sm"><div class="border-b border-slate-200 pb-3"><p class="text-center text-lg font-bold">Controle de Pedidos</p><p class="text-center text-xs text-slate-500">Nota de serviço</p></div><div class="mt-4 text-sm"><div class="flex justify-between"><span>Cliente</span><b>João Silva</b></div><div class="mt-2 flex justify-between"><span>Data</span><b>15/05/2026</b></div></div><div class="mt-4 rounded-xl bg-slate-50 p-3 text-sm"><div class="flex justify-between"><span>Copping ×2</span><b>R$ 180</b></div><div class="mt-2 flex justify-between"><span>Ajuste ×1</span><b>R$ 50</b></div></div><div class="mt-4 flex justify-between text-xl font-bold"><span>Total</span><span class="text-blue-600">R$ 230</span></div></div>
+            <button class="mt-4 h-12 w-full rounded-xl bg-blue-600 font-semibold text-white">Compartilhar PDF</button><button class="mt-3 h-12 w-full rounded-xl border border-slate-200 bg-white font-semibold">Baixar</button>
+          </div><p class="mt-3 text-center text-sm font-bold">PDF/compartilhar</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <h3 class="text-2xl font-bold">Ajustes</h3><p class="text-sm text-slate-500">Configurações do app</p>
+            <div class="mt-5 space-y-3"><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-bold">Dados da empresa</p><p class="text-sm text-slate-500">Nome, telefone e logo</p></div><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-bold">Numeração de notas</p><p class="text-sm text-slate-500">Próxima: #0013</p></div><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-bold">Modelo do PDF</p><p class="text-sm text-slate-500">Cabeçalho e observações</p></div><div class="rounded-2xl bg-white p-4 shadow-sm"><p class="font-bold">Backup</p><p class="text-sm text-slate-500">Exportar dados</p></div></div>
+            <button class="mt-6 h-12 w-full rounded-xl text-sm font-semibold text-red-600">Limpar dados locais</button>
+          </div><p class="mt-3 text-center text-sm font-bold">Ajustes</p>
+        </article>
+
+        <article class="phone rounded-[2rem] border border-slate-200 bg-white p-3 shadow-sm">
+          <div class="phone-screen rounded-[1.5rem] bg-slate-50 p-4">
+            <div class="mb-4 flex items-center justify-between"><h3 class="text-2xl font-bold">Navegação</h3><span class="text-sm text-slate-500">Tabs</span></div>
+            <div class="wire flex min-h-[450px] items-center justify-center rounded-2xl border border-dashed border-slate-300 p-6 text-center"><div><p class="font-bold">Área de conteúdo</p><p class="mt-2 text-sm text-slate-500">Stack de cada módulo renderiza aqui.</p></div></div>
+            <div class="mt-4 grid grid-cols-5 gap-2 rounded-2xl bg-white p-2 shadow-sm"><div class="rounded-xl bg-blue-100 p-2 text-center text-xs font-bold text-blue-700">Início</div><div class="p-2 text-center text-xs font-bold text-slate-500">Notas</div><div class="p-2 text-center text-xs font-bold text-slate-500">+</div><div class="p-2 text-center text-xs font-bold text-slate-500">Serviços</div><div class="p-2 text-center text-xs font-bold text-slate-500">Ajustes</div></div>
+          </div><p class="mt-3 text-center text-sm font-bold">Tab bar global</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="estados" class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">3. Estados, situações possíveis e feedbacks</h2>
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h3 class="font-bold">Lista vazia</h3><div class="mt-4 rounded-2xl bg-slate-50 p-8 text-center"><div class="mx-auto h-14 w-14 rounded-2xl bg-blue-100"></div><p class="mt-3 font-bold">Nenhuma nota encontrada</p><p class="mt-1 text-sm text-slate-500">Crie a primeira nota para começar.</p><button class="mt-4 h-10 rounded-xl bg-blue-600 px-4 text-sm font-bold text-white">Nova nota</button></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h3 class="font-bold">Carregando</h3><div class="mt-4 space-y-3"><div class="h-20 animate-pulse rounded-2xl bg-slate-100"></div><div class="h-20 animate-pulse rounded-2xl bg-slate-100"></div><div class="h-20 animate-pulse rounded-2xl bg-slate-100"></div></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h3 class="font-bold">Erro</h3><div class="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4"><p class="font-bold text-red-700">Não foi possível carregar</p><p class="mt-1 text-sm text-red-700">Verifique a conexão ou tente novamente.</p><button class="mt-4 h-10 rounded-xl bg-red-600 px-4 text-sm font-bold text-white">Tentar novamente</button></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h3 class="font-bold">Validação</h3><label class="mt-4 block"><span class="mb-2 block text-sm font-semibold">Preço</span><input class="h-12 w-full rounded-xl border border-red-300 bg-white px-4 outline-none" value="" placeholder="R$ 0,00"/><p class="mt-2 text-xs font-bold text-red-600">Informe um preço válido.</p></label></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h3 class="font-bold">Confirmação destrutiva</h3><div class="mt-4 rounded-2xl bg-white p-4 shadow-lg ring-1 ring-slate-200"><p class="font-bold">Cancelar nota?</p><p class="mt-1 text-sm text-slate-500">Essa ação altera o status e não deve ser usada para notas finalizadas por engano.</p><div class="mt-4 grid grid-cols-2 gap-2"><button class="h-10 rounded-xl border border-slate-200 font-bold">Voltar</button><button class="h-10 rounded-xl bg-red-600 font-bold text-white">Cancelar</button></div></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><h3 class="font-bold">Sucesso</h3><div class="mt-4 rounded-2xl border border-green-200 bg-green-50 p-4"><p class="font-bold text-green-700">Nota finalizada</p><p class="mt-1 text-sm text-green-700">PDF gerado e pronto para compartilhar.</p></div></article>
+      </div>
+    </section>
+
+    <section id="componentes" class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">4. Todos os componentes do app</h2>
+      <div class="grid gap-5 lg:grid-cols-2">
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><h3 class="mb-4 text-xl font-bold">Botões</h3><div class="flex flex-wrap gap-3"><button class="h-12 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white">Primário</button><button class="h-12 rounded-xl border border-slate-200 bg-white px-5 text-sm font-bold">Secundário</button><button class="h-12 rounded-xl bg-red-600 px-5 text-sm font-bold text-white">Destrutivo</button><button class="h-12 rounded-xl px-5 text-sm font-bold text-blue-600">Ghost</button><button class="h-12 rounded-xl bg-slate-200 px-5 text-sm font-bold text-slate-400">Desabilitado</button></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><h3 class="mb-4 text-xl font-bold">Inputs</h3><div class="grid gap-3"><input class="h-12 rounded-xl border border-slate-200 px-4" placeholder="Texto"/><input class="h-12 rounded-xl border border-slate-200 px-4" placeholder="R$ 0,00"/><textarea class="h-24 rounded-xl border border-slate-200 p-4" placeholder="Observação"></textarea></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><h3 class="mb-4 text-xl font-bold">Badges</h3><div class="flex flex-wrap gap-3"><span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">Aberta</span><span class="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-green-700">Finalizada</span><span class="rounded-full bg-red-100 px-3 py-1 text-xs font-bold text-red-700">Cancelada</span><span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">Informação</span><span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-bold text-slate-700">Neutro</span></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><h3 class="mb-4 text-xl font-bold">Cards de domínio</h3><div class="grid gap-3"><div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><p class="font-bold">ServicoCard</p><p class="text-sm text-slate-500">Nome, descrição, preço, status, ações.</p></div><div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><p class="font-bold">NotaCard</p><p class="text-sm text-slate-500">Número, cliente, data, itens, status, total.</p></div><div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><p class="font-bold">ClienteCard</p><p class="text-sm text-slate-500">Nome, telefone, total gasto, última nota.</p></div></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><h3 class="mb-4 text-xl font-bold">Barras e filtros</h3><div class="space-y-3"><div class="h-12 rounded-xl border border-slate-200 bg-white px-4 leading-[48px] text-slate-400">SearchInput</div><div class="flex gap-2"><span class="rounded-full bg-blue-600 px-3 py-1 text-xs font-bold text-white">Todas</span><span class="rounded-full bg-white px-3 py-1 text-xs font-bold shadow-sm">Hoje</span><span class="rounded-full bg-white px-3 py-1 text-xs font-bold shadow-sm">Mês</span></div><div class="rounded-2xl border-t border-slate-200 bg-white p-4 shadow-sm">FooterActions fixo</div></div></article>
+        <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"><h3 class="mb-4 text-xl font-bold">Overlays</h3><div class="space-y-3"><div class="rounded-2xl bg-white p-4 shadow-lg ring-1 ring-slate-200"><p class="font-bold">BottomSheet</p><p class="text-sm text-slate-500">Seleção de serviço, filtros ou ações rápidas.</p></div><div class="rounded-2xl bg-white p-4 shadow-lg ring-1 ring-slate-200"><p class="font-bold">Dialog</p><p class="text-sm text-slate-500">Confirmações e alertas críticos.</p></div><div class="rounded-xl bg-slate-950 px-4 py-3 text-sm font-semibold text-white">Toast: serviço salvo</div></div></article>
+      </div>
+    </section>
+
+    <section id="nativewind" class="mb-12">
+      <h2 class="mb-4 text-2xl font-bold text-slate-950">5. Guia rápido de classes NativeWind</h2>
+      <div class="grid gap-4 md:grid-cols-2">
+        <pre class="overflow-auto rounded-2xl bg-slate-950 p-5 text-sm text-slate-100"><code>Screen: flex-1 bg-slate-50
+Scroll content: px-4 py-6 gap-4
+Title: text-2xl font-bold text-slate-950
+Subtitle: text-sm text-slate-500
+Card: rounded-2xl border border-slate-200 bg-white p-4 shadow-sm
+Input: h-12 rounded-xl border border-slate-200 bg-white px-4
+Button primary: h-12 rounded-xl bg-blue-600 px-5
+Button text: text-sm font-semibold text-white</code></pre>
+        <pre class="overflow-auto rounded-2xl bg-slate-950 p-5 text-sm text-slate-100"><code>Status aberta: bg-amber-100 text-amber-700
+Status finalizada: bg-green-100 text-green-700
+Status cancelada: bg-red-100 text-red-700
+Money: text-lg font-bold text-blue-600
+Divider: border-t border-slate-100 pt-4
+Danger action: text-red-600 ou bg-red-600
+Success message: border-green-200 bg-green-50 text-green-700</code></pre>
+      </div>
+    </section>
+
+    <footer class="rounded-3xl border border-slate-200 bg-white p-6 text-sm leading-6 text-slate-600 shadow-sm">
+      <p class="font-bold text-slate-950">Observação de arquitetura visual</p>
+      <p class="mt-1">Para telas com listas, use FlatList como container principal. Para formulários e detalhes, use SafeAreaView + ScrollView. Mantenha ações principais no rodapé quando a tela tiver revisão/salvamento.</p>
+    </footer>
+  </main>
+</body>
+</html>
