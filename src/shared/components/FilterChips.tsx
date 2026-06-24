@@ -1,4 +1,3 @@
-import { StatusFilter } from '@/modules/works/types/works.types';
 import { Text, TouchableOpacity, ScrollView, View } from 'react-native';
 import { tv, VariantProps } from 'tailwind-variants';
 
@@ -24,23 +23,25 @@ const filterChips = tv({
   },
 });
 
-export type FilterChipsProps = {
-  options: {
-    value: StatusFilter;
-    label: string;
-    count?: number;
-  }[];
-  value: StatusFilter;
-  onChange: (value: StatusFilter) => void;
+type FilterChipValue = string;
+
+type FilterChipOption<TValue extends FilterChipValue = FilterChipValue> = {
+  value: TValue;
+  label: string;
+  count?: number;
 };
+
+export type FilterChipsProps<TValue extends FilterChipValue = FilterChipValue> =
+  {
+    options: readonly FilterChipOption<TValue>[];
+    value: TValue;
+    onChange: (value: TValue) => void;
+    className?: string;
+  };
 
 type ChipProps = VariantProps<typeof filterChips> & {
   onPress?: () => void;
-  option: {
-    value: string;
-    label: string;
-    count?: number;
-  };
+  option: FilterChipOption;
 };
 
 const Chip: React.FC<ChipProps> = ({ selected, option, onPress }) => {
@@ -58,14 +59,15 @@ const Chip: React.FC<ChipProps> = ({ selected, option, onPress }) => {
   );
 };
 
-export const FilterChips: React.FC<FilterChipsProps> = ({
+export const FilterChips = <TValue extends FilterChipValue>({
   options,
   value,
   onChange,
-}) => {
+  className,
+}: FilterChipsProps<TValue>) => {
   return (
     <ScrollView
-      className="flex-1"
+      className={`flex-1 ${className ?? ''}`}
       contentContainerClassName="gap-2"
       horizontal
       showsHorizontalScrollIndicator={false}>

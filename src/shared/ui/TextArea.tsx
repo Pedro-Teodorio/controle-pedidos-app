@@ -16,7 +16,7 @@ const textarea = tv({
   },
   defaultVariants: {
     hasError: false,
-    disabled: false,
+    isDisabled: false,
   },
 });
 
@@ -31,8 +31,12 @@ export const TextArea: React.FC<TextAreaProps> = ({
   isDisabled,
   errorMessage,
   label,
+  editable,
   ...rest
 }) => {
+  const isFieldDisabled = isDisabled || editable === false;
+  const resolvedEditable = isDisabled ? false : editable;
+
   return (
     <View className="flex-1 gap-2">
       {label && (
@@ -41,16 +45,16 @@ export const TextArea: React.FC<TextAreaProps> = ({
         </Text>
       )}
       <TextInput
-        editable={!isDisabled}
+        editable={resolvedEditable}
         multiline
         maxLength={300}
         numberOfLines={5}
-        className={textarea({ hasError, isDisabled })}
+        className={textarea({ hasError, isDisabled: isFieldDisabled })}
         {...rest}
       />
-      {hasError && (
+      {hasError && errorMessage ? (
         <Text className="text-sm font-medium text-red-600">{errorMessage}</Text>
-      )}
+      ) : null}
     </View>
   );
 };

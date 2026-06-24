@@ -2,14 +2,20 @@ import { FilterChips } from '@/shared/components/FilterChips';
 import { ScreenHeader } from '@/shared/components/ScreenHeader';
 import { SearchInput } from '@/shared/ui/SearchInput';
 import { View } from 'react-native';
-import { StatusFilter, StatusOptions } from '../types/works.types';
+import { StatusFilter } from '../types/works.types';
+
+type WorkStatusOption = {
+  value: StatusFilter;
+  label: string;
+  count: number;
+};
 
 type WorkHeaderScreenProps = {
   searchText: string;
   setSearchText: (text: string) => void;
   statusFilter: StatusFilter;
   setStatusFilter: (filter: StatusFilter) => void;
-  statusOptions: StatusOptions[];
+  statusOptions: WorkStatusOption[];
   onCreate: () => void;
 };
 

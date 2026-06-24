@@ -92,13 +92,15 @@ export const Button: React.FC<ButtonProps> = ({
   iconName,
   className,
   isLoading = false,
+  disabled,
   ...rest
 }) => {
   const { base, text, icon } = button({ size, variant, rounded });
+  const isDisabled = disabled || isLoading;
 
   return (
     <TouchableOpacity
-      disabled={isLoading}
+      disabled={isDisabled}
       activeOpacity={0.8}
       className={`${base()} ${className}`}
       {...rest}>
