@@ -16,7 +16,7 @@ const input = tv({
   },
   defaultVariants: {
     hasError: false,
-    disabled: false,
+    isDisabled: false,
   },
 });
 
@@ -31,8 +31,12 @@ export const Input: React.FC<InputProps> = ({
   isDisabled,
   errorMessage,
   label,
+  editable,
   ...rest
 }) => {
+  const isFieldDisabled = isDisabled || editable === false;
+  const resolvedEditable = isDisabled ? false : editable;
+
   return (
     <View className="flex-1 gap-2">
       {label && (
@@ -41,13 +45,13 @@ export const Input: React.FC<InputProps> = ({
         </Text>
       )}
       <TextInput
-        editable={!isDisabled}
-        className={input({ hasError, isDisabled })}
+        editable={resolvedEditable}
+        className={input({ hasError, isDisabled: isFieldDisabled })}
         {...rest}
       />
-      {hasError && (
+      {hasError && errorMessage ? (
         <Text className="text-sm font-medium text-red-600">{errorMessage}</Text>
-      )}
+      ) : null}
     </View>
   );
 };
