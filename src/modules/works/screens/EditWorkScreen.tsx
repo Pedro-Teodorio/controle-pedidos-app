@@ -11,21 +11,25 @@ import { ConfirmDialog } from '@/shared/components/ConfirmDialog';
 import { useBottomSheet } from '@/shared/hooks/useBottomSheet';
 
 export const EditWorkScreen = () => {
-  const { id } = useLocalSearchParams<{ id: 'string' }>();
+  const { id } = useLocalSearchParams<{ id?: string | string[] }>();
+  const workId = typeof id === 'string' ? id : undefined;
   const { bottomSheetRef, handleOpenBottomSheet, handleCloseBottomSheet } =
     useBottomSheet();
 
   const router = useRouter();
 
-  const { data: work } = useWork(id);
+  const { data: work } = useWork(workId ?? '');
   const { mutateAsync: editWork, isPending } = useEditWorkMutation();
   const { mutateAsync: deleteWork, isPending: isDeleting } =
     useDeleteWorkMutation();
 
   const handleSubmit = async (data: WorkFormData) => {
     try {
-      if (!work) return;
-      await editWork({ id, data });
+      if (!work || !workId) {
+        Alert.alert('Erro', 'Não foi possível identificar o serviço.');
+        return;
+      }
+      await editWork({ id: workId, data });
       router.push('/works');
     } catch {
       Alert.alert('Erro', 'Não foi possível editar o serviço.');
@@ -34,8 +38,11 @@ export const EditWorkScreen = () => {
 
   const handleDelete = async () => {
     try {
-      if (!work) return;
-      await deleteWork({ id });
+      if (!work || !workId) {
+        Alert.alert('Erro', 'Não foi possível identificar o serviço.');
+        return;
+      }
+      await deleteWork({ id: workId });
       router.push('/works');
     } catch {
       Alert.alert('Erro', 'Não foi possível excluir o serviço.');
