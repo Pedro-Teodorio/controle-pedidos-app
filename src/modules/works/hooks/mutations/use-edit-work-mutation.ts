@@ -16,7 +16,7 @@ export const useEditWorkMutation = () => {
       return worksService.updateWork(id, data);
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: worksQueryKeys.all });
+      await queryClient.invalidateQueries({ queryKey: worksQueryKeys.all });
     },
   });
 };

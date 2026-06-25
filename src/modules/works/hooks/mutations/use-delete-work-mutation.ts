@@ -10,7 +10,7 @@ export const useDeleteWorkMutation = () => {
       return worksService.deleteWork(id);
     },
     onSuccess: async () => {
-      queryClient.invalidateQueries({ queryKey: worksQueryKeys.all });
+      await queryClient.invalidateQueries({ queryKey: worksQueryKeys.all });
     },
   });
 };

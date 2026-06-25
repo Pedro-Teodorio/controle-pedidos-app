@@ -79,10 +79,9 @@ const updateWork = async (
   validateId(id);
   validateUpdateWorkInput(input);
 
-  // Verifica se existe
-  const user = await findWorkById(id);
+  const work = await findWorkById(id);
 
-  if (!user) {
+  if (!work) {
     throw new Error(`Work ID ${id} não encontrado`);
   }
 
@@ -97,7 +96,6 @@ const updateWork = async (
 const deleteWork = async (id: string): Promise<void> => {
   validateId(id);
 
-  // Verifica se existe
   const work = await findWorkById(id);
 
   if (!work) {
