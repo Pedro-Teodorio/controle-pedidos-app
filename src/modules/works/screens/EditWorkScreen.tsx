@@ -69,7 +69,7 @@ export const EditWorkScreen = () => {
       <ConfirmDialog
         bottomSheetRef={bottomSheetRef}
         title="Excluir serviço?"
-        description="O serviço será removido permanentemente do catálogo."
+        description="Esta ação remove o serviço permanentemente do catálogo e não pode ser desfeita."
         confirmText="Excluir"
         cancelText="Voltar"
         onConfirm={handleDelete}
