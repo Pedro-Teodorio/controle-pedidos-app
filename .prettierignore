@@ -1,0 +1,5 @@
+docs/
+.specs/
+drizzle/*.sql
+drizzle/migrations.js
+drizzle/meta/*.json

@@ -8,6 +8,13 @@
       "when": 1779035508567,
       "tag": "0000_outstanding_jack_power",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1782516498188,
+      "tag": "0001_puzzling_vision",
+      "breakpoints": true
     }
   ]
 }
