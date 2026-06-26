@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "ea585aba-79cc-46eb-8abd-8cd0e6438a32",
+  "id": "a3295f0e-2dbf-4520-9a5c-2bc06fec26b4",
   "prevId": "6ef44fbe-76be-4ffb-914e-95a2f104c44f",
   "tables": {
     "order_items": {
@@ -85,7 +85,15 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "order_items_order_id_idx": {
+          "name": "order_items_order_id_idx",
+          "columns": [
+            "order_id"
+          ],
+          "isUnique": false
+        }
+      },
       "foreignKeys": {
         "order_items_order_id_orders_id_fk": {
           "name": "order_items_order_id_orders_id_fk",
@@ -186,7 +194,15 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "orders_number_unique": {
+          "name": "orders_number_unique",
+          "columns": [
+            "number"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},

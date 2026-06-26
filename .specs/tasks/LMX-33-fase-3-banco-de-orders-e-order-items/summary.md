@@ -20,7 +20,7 @@
 - `src/database/schemas/order-items.schema.ts`
 - `src/database/client.ts`
 - `src/modules/orders/types/orders.types.ts`
-- `drizzle/0001_youthful_norman_osborn.sql`
+- `drizzle/0001_puzzling_vision.sql`
 - `drizzle/meta/0001_snapshot.json`
 - `drizzle/meta/_journal.json`
 - `drizzle/migrations.js`
@@ -47,19 +47,22 @@
 ## Findings Corrigidos Por Task
 
 - T1: review inicial apontou alteração em `eslint.config.js` para ignorar `docs`; usuário autorizou manter `eslint.config.js` no escopo aprovado. Também foi autorizado ajustar Prettier para excluir arquivos fora do escopo operacional.
-- T5: review apontou ausência de FK em `order_items.order_id`. Usuário autorizou corrigir com FK para `orders.id` sem cascade. `src/database/schemas/order-items.schema.ts` foi ajustado e a migration foi regenerada como `0001_youthful_norman_osborn`.
+- T5: review apontou ausência de FK em `order_items.order_id`. Usuário autorizou corrigir com FK para `orders.id` sem cascade. `src/database/schemas/order-items.schema.ts` foi ajustado e a migration foi regenerada.
+- Review do PR: foram incorporados `PRAGMA foreign_keys = ON`, índice não único em `order_items.order_id` e índice único em `orders.number`. A migration final foi regenerada como `0001_puzzling_vision`.
 - T7: review inicial classificou arquivos untracked como risco de commit. Reavaliação confirmou que, nesta execução sem commit/staging, isso é apenas follow-up operacional.
 
 ## Follow-ups Low E Info
 
-- Arquivos novos estão untracked e precisam ser incluídos no commit futuro.
-- `orders.number` não possui unique constraint; não é exigência objetiva da spec atual, mas pode ser avaliado em fase posterior.
+- Arquivos novos foram incluídos no commit inicial do PR; ajustes posteriores devem ser incluídos em novo commit.
 - `orders.status` e valores monetários/quantidade não têm CHECK constraints no SQL; a spec atual aceita restrição via TypeScript/Drizzle e validações futuras em services.
 - Warnings existentes de lint permanecem sem erro.
 
 ## Desvios Em Relação A tasks.md Ou contracts.ts
 
 - `order_items.order_id` foi implementado com FK para `orders.id` sem cascade após finding HIGH e aprovação humana. Isso permanece compatível com a spec e com o contrato que indica relação com `orders`.
+- `orders.number` recebeu unique index para proteger a identificação sequencial visível no PRD.
+- `order_items.order_id` recebeu índice não único para consultas e checks por chave pai.
+- `src/database/client.ts` habilita `PRAGMA foreign_keys = ON` na conexão SQLite para efetivar as FKs.
 - `.prettierignore` e `eslint.config.js` foram ajustados após aprovação humana para permitir validações do projeto sem formatar/validar artefatos fora do escopo produtivo da task.
 
 ## Bloqueios Ou Riscos Residuais

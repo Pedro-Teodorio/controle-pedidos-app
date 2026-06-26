@@ -13,6 +13,8 @@ export const databaseSchemas = {
 
 export const sqliteDatabase = openDatabaseSync('controle-pedidos.db');
 
+sqliteDatabase.execSync('PRAGMA foreign_keys = ON');
+
 export const db = drizzle(sqliteDatabase, {
   schema: databaseSchemas,
 });

@@ -13,6 +13,7 @@ CREATE TABLE `order_items` (
 	FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
+CREATE INDEX `order_items_order_id_idx` ON `order_items` (`order_id`);--> statement-breakpoint
 CREATE TABLE `orders` (
 	`id` text PRIMARY KEY NOT NULL,
 	`number` integer NOT NULL,
@@ -26,3 +27,5 @@ CREATE TABLE `orders` (
 	`closed_at` text,
 	`canceled_at` text
 );
+--> statement-breakpoint
+CREATE UNIQUE INDEX `orders_number_unique` ON `orders` (`number`);
