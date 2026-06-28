@@ -86,7 +86,10 @@ const updateWork = async (
   }
 
   const updateData = {
-    ...input,
+    name: input.name?.trim() ?? work.name,
+    description: input.description?.trim() ?? work.description,
+    price: input.price ?? work.price,
+    status: input.status ?? work.status,
     updatedAt: new Date().toISOString(),
   };
 
